@@ -11,7 +11,25 @@
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="resource-type" content="document" />
+<meta http-equiv="content-language" content="en-us" />
+<meta name="author" content="Roman Gudz" />
+<meta name="contact" content="stangerroman@gmail.com" />
+<meta name="description" content="Some tutorials, advices and tricks from my own computer experience on Windows interface and functionality, programs I use, some programming aspects and web topics." />
+<meta name="keywords" content="advices, tricks, tutorials, illustrations, screenshots, computer, internet, windows, windows-7, sublime-text, firefox, wordpress, programming, android" />
+
 <title><?php wp_title( '|', true, 'right' ); ?></title>
+
+<?php 
+  $home_url=get_home_url();
+  if(is_multisite())
+    $home_url=network_home_url();
+  $home_url=esc_url($home_url).'/';
+?>
+
+<link rel='shortcut icon' type='image/x-icon' href='<?php echo $home_url.'favicon.ico'?>' />
+
 <link rel="profile" href="http://gmpg.org/xfn/11">
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
 
@@ -56,9 +74,14 @@
       <div class="title-box">
         <h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
         <h2 class="site-description"><?php bloginfo( 'description' ); ?></h2>
+        
+        <?php if ( function_exists( 'the_msls' ) ){ ?>
+          <div class="language-switcher">
+            <?php the_msls(); ?>
+          </div>
+        <?php } ?>
       </div>
     </div>
-
 
     <?php if(has_nav_menu('primary') && $menu_items_count): ?>
       <nav id="site-navigation" class="main-navigation clear" role="navigation">
@@ -67,6 +90,12 @@
         <?php get_search_form(); ?>
       </nav><!-- #site-navigation -->
     <?php endif; ?>
+    
+    <?php 
+      // if (function_exists('synved_social_share_markup')) echo synved_social_share_markup();
+      // else var_dump('no share');
+    ?>
+    
 	</header><!-- #masthead -->
 
 	<div id="content" class="site-content">

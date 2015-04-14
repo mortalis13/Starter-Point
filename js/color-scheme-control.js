@@ -16,12 +16,19 @@
 		'post_background',
 		'footer_background',
 		'footer_foreground',
-		'nav_background',
-		'nav_foreground',
-		'nav_current_background',
-		'nav_current_foreground',
-		'nav_hover_background',
-		'nav_hover_foreground',
+    
+    'nav_background',
+    'nav_foreground',
+    'nav_current_background',
+    'nav_current_foreground',
+    'nav_hover_background',
+    'nav_hover_foreground',
+    
+		'footer_nav_background',
+		'footer_nav_foreground',
+		'footer_nav_hover_background',
+		'footer_nav_hover_foreground',
+    
 		'links_color',
 		'links_hover',
 		'table_hover',
@@ -34,16 +41,21 @@
 		'dimmed_color',
 	],
 	layoutSettings=[
-		'content_area_margin',
-		'blog_post_margin',
-		'single_post_margin',
-		'single_post_bottom_margin',
-		'single_page_bottom_margin',
-		'post_nav_bottom_margin',
-		'category_bottom_margin',
-		'paging_nav_bottom_margin',
+    'content_area_top_margin',
+		'content_area_bottom_margin',
+    'site_content_bottom_padding',
+    
+    'blog_post_margin',
+    'last_post_bottom_margin',
+    
+    'single_post_bottom_margin',
+    'single_page_bottom_margin',
+    'post_nav_bottom_margin',
+    'paging_nav_top_margin',
     'header_min_height',
-		'menu_dropdown_width',
+    'menu_dropdown_width',
+    
+		'category_bottom_padding',
 	],
 	refreshSettings=[
 		'post_nav_bottom_margin',
@@ -112,6 +124,9 @@
 				if(setting==refreshSettings[i])
 					skip=true
 			}
+      
+      if(setting=='header_min_height')
+        setHeaderHeightMedia(data,setting)
 
 			if(!skip){
 				var fullSetting=getFullSetting(prefix,setting)
@@ -153,11 +168,14 @@
 
 // ----------------------------------------------------- helpers ------------------------------------------------
 
-	function getFullSetting(prefix,setting) {
-		return prefix+'['+setting+']'
-	}
-
+  // Setting with prefix
+  
+  function getFullSetting(prefix,setting) {
+    return prefix+'['+setting+']'
+  }
+  
 	function updatePicker(scheme,id){
+    api(getFullSetting (prefix,id)).set(0);
 		api(getFullSetting (prefix,id)).set(scheme[id]);
 		api.control(id).container.find('.color-picker-hex')
 			.data('data-default-color', scheme[id])
@@ -171,5 +189,36 @@
 		var input=api.control(id).container.find('input')
 		input.val(scheme[id])
 	}
+  
+  // Set media query for header height
+  // Taken from 'customizer.php:~468'
+  // Temporary fix for header height preview
+  
+  function setHeaderHeightMedia(data,setting) {
+    var fullSetting,headerHeight,header_height_1,header_height_2
+    
+    fullSetting=getFullSetting(prefix,setting)
+    headerHeight=api(fullSetting)();
+    
+    switch(headerHeight){
+      case '140px':
+        header_height_1='96px';
+        header_height_2='76px';
+        break;
+      case '170px':
+        header_height_1='126px';
+        header_height_2='100px';
+        break;
+      case '250px':
+        header_height_1='200px';
+        header_height_2='150px';
+        break;
+    }
+    
+    if(header_height_1 && header_height_2){
+      data['header_height_1']=header_height_1
+      data['header_height_2']=header_height_2
+    }
+  }
 
 })(wp.customize);

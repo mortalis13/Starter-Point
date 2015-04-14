@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Starter\n"
 "POT-Creation-Date: 2015-04-04 11:18+0200\n"
-"PO-Revision-Date: 2015-04-04 20:59+0200\n"
+"PO-Revision-Date: 2015-04-06 19:01+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -271,7 +271,7 @@ msgstr "Colores de Enlaces"
 #: ../inc/customizer.php:1079
 msgctxt "Customizer: Sections"
 msgid "Other Colors"
-msgstr "Otror Colores"
+msgstr "Otros Colores"
 
 #: ../inc/customizer.php:1080
 msgctxt "Customizer: Sections"
@@ -341,12 +341,12 @@ msgstr "Texto"
 #: ../inc/customizer.php:1129
 msgctxt "Customizer: Colors"
 msgid "Current Background"
-msgstr "Fondo de Menu Activo"
+msgstr "Fondo de Menú Activo"
 
 #: ../inc/customizer.php:1130
 msgctxt "Customizer: Colors"
 msgid "Current Foreground"
-msgstr "Texto de Menu Activo"
+msgstr "Texto de Menú Activo"
 
 #: ../inc/customizer.php:1131
 msgctxt "Customizer: Colors"
@@ -531,7 +531,7 @@ msgstr "Usar Colores de Categorías"
 #: ../inc/options/theme-options.php:82
 msgid "Category link colors can be selected in each category edit page"
 msgstr ""
-"Colores de enlasces de categorías se puede escoger en la página de ajustes "
+"Colores de enlaces de categorías se puede escoger en la página de ajustes "
 "de cada categoría"
 
 #: ../inc/options/theme-options.php:94

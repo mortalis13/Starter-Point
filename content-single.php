@@ -6,14 +6,15 @@
  */
 ?>
 
-  <?php
-    $category_list = starter_get_the_category_list( ', ',true," &raquo " );
-  ?>  
+  <?php $category_list = starter_get_the_category_list( ', ',true," &raquo " ); ?>
   <div class="category-list-single">
     <?php echo $category_list ?>
   </div> 
-
-  <?php setPostViews(get_the_Id()); ?>
+  
+  <?php 
+    if(!is_user_logged_in())
+      setPostViews(get_the_Id());
+  ?>
 
   <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
     <header class="entry-header clear">

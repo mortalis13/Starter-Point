@@ -24,7 +24,6 @@
           leftMenu=$("#adminmenuwrap")
           topMenu=$("#wpadminbar")
           
-          
           left=leftMenu.width()
           top=topMenu.height()
           width=$(window).width()-left
@@ -70,7 +69,7 @@
       displayIndentGuides:true,
       fontSize:15,
       useSoftTabs:true,
-      showPrintMargin:false,
+      // showPrintMargin:false,
       tabSize:2,
       // showInvisibles:true
     });

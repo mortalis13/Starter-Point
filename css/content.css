@@ -6,7 +6,7 @@ Layout: Without Sidebar
 /* ----------------------------------- widths ------------------------------- */
 /* ----------------------------------- colors ------------------------------- */
 .secondaryBackground {
-  background-color: #6a6a6a;
+  background-color: #6B6B6B;
   background-color: #6b6b6b;
 }
 /*-----------------------------------------------------*/
@@ -20,6 +20,7 @@ Layout: Without Sidebar
   max-width: 1200px;
   max-width: 120rem;
   margin: 0 auto;
+  padding-bottom: 1rem;
   background-color: #ffffff;
 }
 .content-area {
@@ -94,11 +95,11 @@ Layout: Without Sidebar
   list-style-type: none;
 }
 .single-post .post-navigation {
-  margin-bottom: 2em;
+  margin-bottom: 0;
 }
 .article-divider {
   margin: 0 1em;
-  border-bottom: 1px solid #999;
+  border-bottom: 1px solid #888;
 }
 /*category list*/
 .category-list-single {
@@ -134,7 +135,7 @@ Layout: Without Sidebar
 .category .category-content {
   background: #fff;
   margin: 0 auto;
-  padding: 4rem 7rem 5rem;
+  padding: 4rem 7rem 2rem;
 }
 .category .content-area {
   max-width: 100%;
@@ -197,14 +198,13 @@ Layout: Without Sidebar
   position: absolute;
   top: 5%;
   right: 0;
-  background: #555;
   color: #fff;
+  background: #6B6B6B;
   padding: 0 0.6em;
 }
 .search-results .page-header {
-  /*padding-left:7rem;
-  padding-right:7rem;*/
   padding: 1rem 7rem;
+  margin-bottom: 0;
 }
 .search-results .page.type-page {
   padding: 3rem 7rem;
@@ -219,9 +219,13 @@ Layout: Without Sidebar
 .search-results .post.last-post {
   margin-bottom: 2em;
 }
+.search-results .post,
+.search-results .page {
+  margin-bottom: 1em;
+}
 /* ------------------------------------------------------------ other ------------------------------------------------------------- */
 .dimmed {
-  color: #aaa;
+  color: #888;
 }
 #news_per_page_filter {
   width: 5%;
@@ -379,6 +383,12 @@ Layout: Without Sidebar
   .site-description {
     text-align: center;
   }
+  .language-switcher {
+    text-align: center;
+    left: 50%;
+    bottom: 1.5rem;
+    transform: translate(-50%, 0);
+  }
   .site-header .search-form {
     width: 30%;
   }
@@ -429,9 +439,13 @@ Layout: Without Sidebar
   }
   .site-branding {
     height: auto;
+    min-height: 96px;
   }
   .title-box {
     padding: 2rem;
+  }
+  .language-switcher {
+    bottom: 0.2rem;
   }
   .category-list {
     position: static;
@@ -503,11 +517,17 @@ Layout: Without Sidebar
   .site-header .search-form {
     width: 50%;
   }
+  .site-branding {
+    min-height: 76px;
+  }
   .site-title {
     font-size: 3.7rem;
   }
   .site-description {
     font-size: 1.8rem;
+  }
+  .language-switcher {
+    bottom: 0;
   }
   .comments-title {
     font-size: 3rem;

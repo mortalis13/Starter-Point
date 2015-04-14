@@ -11,16 +11,31 @@
 	</div><!-- #content -->
 
 	<footer id="colophon" class="site-footer" role="contentinfo">
-    <?php $date = date('Y', time()); ?>
+    <?php if(has_nav_menu('footer')): ?>
+      <nav id="footer-navigation" class="footer-navigation clear" role="navigation">
+        <?php wp_nav_menu( array( 
+          'theme_location' => 'footer',
+          'container_class'=>'footer-menu-container',
+          'link_before'     => '<span class="screen-reader-text">',
+          'link_after'      => '</span>',
+        ) ); ?>
+      </nav>
+    <?php endif; ?>
     
-		<div class="footer-info">&copy; <?php echo $date?></div>
-    <div class="footer-text">
-      <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
+    <div class="footer-content">
+      <?php $date = date('Y', time()); ?>
+      <div class="footer-info">&copy; <?php echo $date?></div>
+      <div class="footer-text">
+        <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
+      </div>
     </div>
     
     <?php $image=get_template_directory_uri().'/images/to-top@2x.png'; ?>
     <a id="toTop" href="#"><span id="toTopHover"></span><img width="40" height="40" alt="To Top" src="<?php echo $image ?>"></a>
-	</footer><!-- #colophon -->
+    
+  </footer><!-- #colophon -->
+  
+  
 </div><!-- #page -->
 
 <?php wp_footer(); ?>

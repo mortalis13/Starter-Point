@@ -60,8 +60,11 @@ if ( post_password_required() ) {
       array(
   			'comment_notes_before'=>'',
   			'logged_in_as'=>'<p class="logged-in-as">'
-            .sprintf( __( 'Logged in as <a href="%1$s">%2$s</a>.<br><a href="%3$s" title="Log out of this account">Log out</a>','starter' ), 
-              get_edit_user_link(), $user_identity, wp_logout_url( apply_filters( 'the_permalink', get_permalink( $post_id ) ) ) ) . '</p>',
+          .sprintf( __( 'Logged in as <a href="%1$s">%2$s</a>.<br><a href="%3$s" title="Log out of this account">Log out</a>','starter' ), 
+            get_edit_user_link(), $user_identity, 
+            wp_logout_url(apply_filters( 'the_permalink', get_permalink( get_the_ID() ) ))
+          ) 
+          .'</p>',
 		  )
     ); 
 	?>

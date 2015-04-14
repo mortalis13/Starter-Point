@@ -154,13 +154,13 @@ jQuery(function($){
   
   var settings = {
     text: 'To Top',
+    containerID: 'toTop',
+    containerHoverID: 'toTopHover',
     min: 200,
     inDelay: 600,
     outDelay: 400,
-    containerID: 'toTop',
-    containerHoverID: 'toTopHover',
-    scrollSpeed: 400,
-    easingType: 'linear'
+    scrollSpeed: 700,
+    easingType: 'swing'
   };
   
   var toTopHidden = true;

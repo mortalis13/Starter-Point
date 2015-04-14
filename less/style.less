@@ -3,7 +3,7 @@
 Theme Name: Starter Point
 Author: mortalis
 Description: Starter Point is a simple, lightweight, customizable and responsive theme. The main purpose is to put the content in one centered column without sidebars. Posts have only categories without tags. Customizer options allow choose one of the predefined color schemes or change custom theme colors with live preview. Custom header has 3 heights to use for background images. Each category name may have a custom color to distinguish it from others. Categories are organized as list of posts in a table rather than the default blog view. The table has sortable columns and shows views count for each post. Front page has one more option to show most viewed posts with a specified posts count.
-Version: 1.0.4
+Version: 1.0.8
 License: GNU General Public License
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: starter
@@ -107,19 +107,18 @@ q:before, q:after {
 blockquote, q {
 	quotes: "" "";
 }
-a:focus {
-	outline: thin dotted;
-}
-a:hover,
-a:active {
-	outline: 0;
-}
 a img {
 	border: 0;
 }
-
+a:hover,
+a:active,
+a:focus {
+  outline: none;
+  color:#000;
+}
 a:focus img {
-    outline: 3px dotted #2c86ba;
+  /*outline: 3px dotted #2c86ba;*/
+  outline: none;
 }
 
 /*--------------------------------------------------------------
@@ -141,8 +140,8 @@ textarea {
 h1, h2, h3, h4, h5, h6 {
     font-weight: 900;
     font-family: @sfont;
-    -ms-word-break: break-word;
-    word-break: break-word;
+    -ms-word-break: break-all;
+    word-break: break-all;
 }
 
 p { margin-bottom: 1.5em; }
@@ -154,22 +153,25 @@ dfn, cite, em, i { font-style: italic; }
 address { margin: 0 0 1.5em; }
 
 pre {
-    max-width: 100%;
-    padding: 1em;
-    margin-bottom: 2em!important;
-    overflow: auto;
-    font-family: @prefont;
-    font-size: 15px;
-    font-size: 1.5rem;
-    line-height: 1.6;
-    background: #eee;
-    white-space: pre-wrap;
+  max-width: 100%;
+  padding: 1em;
+  margin-bottom: 2em!important;
+  overflow: auto;
+  font-family: @prefont;
+  font-size: 15px;
+  font-size: 1.5rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
 }
 
 code{
-    padding:0.2em;
-    margin: 0;
-    background: #eee;
+  padding:0.2em;
+  margin: 0;
+}
+
+pre,code{
+  color: #000;
+  background: #eee;
 }
 
 code, kbd, tt, var { font: 1.5rem Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace; }
@@ -181,7 +183,8 @@ abbr, acronym {
 
 mark, ins {
     text-decoration: none;
-    background: #fff9c0;
+    color: #fff;
+    background: #828282;
 }
 
 sup, sub {
@@ -207,6 +210,9 @@ pre div{
 /*--------------------------------------------------------------
 3.0 Elements
 --------------------------------------------------------------*/
+/**{
+  outline:none;
+}*/
 hr {
     height: 1px;
     margin-bottom: 1.5em;
@@ -233,6 +239,7 @@ dd { margin: 0 1.5em 1.5em; }
 img {
     height: auto; /* Make sure images are scaled correctly. */
     max-width: 100%; /* Adhere to container width. */
+    /*outline:none;*/
 }
 
 figure { margin: 0; }
@@ -247,7 +254,7 @@ table{
 table th,
 table td{
   padding:1rem;
-  border: 1px solid #555;
+  border: 1px solid #888;
 }
 
 table th{
@@ -279,7 +286,7 @@ input,
 select,
 textarea {
     vertical-align: baseline; /* Improves appearance and consistency in all browsers */
-    *vertical-align: middle; /* Improves appearance and consistency in IE6/IE7 */
+    /* *vertical-align: middle; /* Improves appearance and consistency in IE6/IE7 */
     margin: 0; /* Addresses margins set differently in IE6/7, F3/4, S5, Chrome */
     font-size: 100%; /* Corrects font size not being inherited in all browsers */
 }
@@ -540,14 +547,18 @@ a:visited {
     padding-top: 0.5em;
     padding-bottom: 0.5em;
     padding-left:1em;
-    margin-bottom:2em;
+    margin-top:0;
+    margin-bottom:0;
 }
 
 .post-navigation {
     padding: 0.7em 2em;
     margin-bottom: 2em;
-    border-top: hsl(0, 0%, 80%) solid 1px;
-    border-bottom: hsl(0, 0%, 80%) solid 1px; 
+    border-top: hsl(0, 0%, 53%) solid 1px;
+    border-bottom: hsl(0, 0%, 53%) solid 1px; 
+}
+.post-navigation h1{
+  word-break:keep-all;
 }
 
 .comment-navigation .nav-previous,
@@ -575,8 +586,8 @@ a:visited {
 .comment-navigation {   
     padding: 1em 0;
     margin: 1em 0;
-    border-top: hsl(0, 0%, 80%) solid 1px;
-    border-bottom: hsl(0, 0%, 80%) solid 1px;  
+    border-top: hsl(0, 0%, 53%) solid 1px;
+    border-bottom: hsl(0, 0%, 53%) solid 1px;  
 }
 
 .comment-navigation i { margin: 0 0.5em; }
@@ -595,7 +606,7 @@ a:visited {
     .comment-navigation .nav-next,
     .post-navigation .nav-next { 
         padding-top: 2rem;
-        border-top: 2px solid;
+        border-top: 2px solid #888;
     }
     .comment-navigation .nav-next{
         padding-left: 1em;
@@ -734,6 +745,7 @@ span.page-numbers {
     height: @minHeaderHeight;
     background-size: cover;
     height: auto;
+    min-height:140px;
 }
 
 .site-title {
@@ -767,6 +779,21 @@ span.page-numbers {
 .site-description { 
     color: #000;
     color: hsl(0, 0%, 0%);
+}
+
+.language-switcher{
+  position:absolute;
+  right:1rem;
+  bottom:0;
+}
+.language-switcher a{
+  display: inline-block;
+  margin-left: 0.3em;
+  line-height:0.5 !important;
+}
+.language-switcher a img,
+.language-switcher a:focus{
+  outline:none !important;
 }
 
 .header-image img {
@@ -960,19 +987,19 @@ input[type=search]{
 
 .page-links a {
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0.3);
-  background-color: #333;
+  color: #000;
+  background-color: #eee;
   border-color: #333;
-  color: #fff;
   text-decoration: none;
   border-radius: 0.7em;
 }
 
 .page-links a:hover,
 .page-links a:focus {
-  background-color: #707070;
-  background-color: rgba(51, 51, 51, 0.7);
-  border-color: transparent;
   color: #fff;
+  background-color: #828282;
+  background-color: rgba(130, 130, 130, 0.7);
+  border-color: transparent;
 }
 
 .page-links > .page-links-title {
@@ -981,6 +1008,10 @@ input[type=search]{
   margin: 0;
   padding-right: 0.5em;
   width: auto;
+}
+
+h1.entry-title {
+  word-break:keep-all;
 }
 
 .entry-title {
@@ -993,7 +1024,7 @@ input[type=search]{
 }
 
 .entry-title a{
-  border-bottom: 2px solid #333;
+  border-bottom: 2px solid #000;
 }
 
 .entry-title a:hover,
@@ -1163,8 +1194,8 @@ blockquote {
     padding: 1em;
     font-family: @sfont;
     font-style: italic;
-    border-top: solid 1px hsl(0, 0%, 80%);
-    border-bottom: solid 1px hsl(0, 0%, 80%);
+    border-top: solid 1px hsl(0, 0%, 53%);
+    border-bottom: solid 1px hsl(0, 0%, 53%);
     margin: 0 2em 1em;
 }
 
@@ -1280,7 +1311,7 @@ blockquote cite {
 
 .attachment .entry-footer,
 .page .entry-footer{
-  border-top: 1px solid #aaa;
+  border-top: 1px solid #888;
   padding-top: 1em;
 }
 
@@ -1456,9 +1487,8 @@ ol.children { list-style-type: none; }
 .reply { margin-left: 70px; }
 
 .comment-body {
-    /*padding-bottom: 2em;*/
     margin-bottom: 2em;
-    border-bottom: solid hsl(0, 0%, 80%) 1px;
+    border-bottom: solid hsl(0, 0%, 53%) 1px;
 }
 .comment-body .reply {
     padding-bottom: 2em;
@@ -1481,7 +1511,8 @@ ol.children { list-style-type: none; }
     position: relative;
     padding: 1em;
     margin-bottom: 2em;
-    background: hsl(0, 0%, 93%);
+    background: #ccc;
+    background: hsl(0, 0%, 80%);
 }
 
 .comments-area .pingback .comment-body{
@@ -1554,16 +1585,6 @@ ol.children { list-style-type: none; }
   font-weight: 700;
 }
 
-.wp-caption .wp-caption-text,
-.gallery-caption {
-    padding: 0.7em 1em;
-    font-size: 14px;
-    font-size: 1.4rem;
-    font-family: @ssfont;
-    background: #e5e5e5;
-    background: hsl(0, 0%, 90%);
-}
-
 .site-main .gallery { margin-bottom: 1.5em; }
 
 .gallery {
@@ -1581,7 +1602,6 @@ ol.children { list-style-type: none; }
 
 .gallery-caption {  
     position: absolute;
-    color: #fff;
     width: 20rem;
     font-size: 0.75em;
     padding: 0.5em 1em;
@@ -1593,6 +1613,23 @@ ol.children { list-style-type: none; }
     z-index:1000;
     border-radius: 0.8em;
     box-shadow: 0 0 0.2em;
+}
+
+.wp-caption .wp-caption-text,
+.gallery-caption {
+    padding: 0.7em 1em;
+    font-size: 14px;
+    font-size: 1.4rem;
+    font-family: @ssfont;
+    background: #eee;
+    background: hsl(0, 0%, 90%);
+}
+
+.gallery-caption,
+.gallery-caption a,
+.wp-caption .wp-caption-text,
+.wp-caption .wp-caption-text a{
+  color: #fff;
 }
 
 .gallery-columns-2 .gallery-item {
@@ -1635,7 +1672,7 @@ ol.children { list-style-type: none; }
 .site-main .gallery figcaption { margin: 0; }
 
 .lazy{
-  background-color: #bbb;
+  background-color: #fff;
   background-image: url("http://localhost/wp-pcadvice/wp-content/themes/starter-point/images/loader.gif");
   background-repeat: no-repeat;
   background-position: center;
@@ -1652,7 +1689,7 @@ object { max-width: 100%; }
 --------------------------------------------------------------*/
 
 .site-footer {
-    padding: 0.5em 1em;
+    padding: 1rem 1em;
     font-size: 16px;
     font-size: 1.6rem;
     font-family: @ssfont;
@@ -1667,8 +1704,8 @@ object { max-width: 100%; }
 .site-footer a:hover,
 .site-footer a:focus,
 .site-footer a:active{ 
-    color: #fff;
-    color: hsl(0, 0%, 100%);
+    color: #eee;
+    color: hsl(0, 0%, 93%);
 }
 
 .site-info { text-align: center; }
@@ -1684,8 +1721,8 @@ object { max-width: 100%; }
   display:none;
   text-decoration:none;
   position:fixed;
-  bottom:5rem;
-  right:.75rem;
+  bottom:1rem;
+  right:1rem;
   overflow:hidden;
   width:43px;
   height:43px;

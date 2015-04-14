@@ -24,9 +24,9 @@
             // show excerpt if present or the content (with or without Read More)
           
             if(has_excerpt(get_the_ID())){
-                the_excerpt(); 
+              the_excerpt(); 
             } else {
-                the_content('');
+              the_content('');
             }
             
             wp_link_pages( array(

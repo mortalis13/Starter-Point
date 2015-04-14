@@ -35,7 +35,8 @@ function starter_setup() {
 
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menus( array(
-		'primary' => __( 'Primary Menu', 'starter' ),
+    'primary' => __( 'Primary Menu', 'starter' ),
+		'footer' => __( 'Footer Menu', 'starter' ),
 	) );
 
 	// Setup the WordPress core custom background feature.
@@ -67,7 +68,10 @@ add_action( 'after_setup_theme', 'starter_setup' );
 function starter_scripts() {
   wp_enqueue_style( 'starter-style', get_stylesheet_uri() );
   wp_enqueue_style( 'starter-content' , get_template_directory_uri() . '/css/content.css' );
-  wp_enqueue_style( 'starter_fontawesome', get_template_directory_uri() . '/fonts/font-awesome/css/font-awesome.min.css' );
+  wp_enqueue_style( 'starter-footer-menu' , get_template_directory_uri() . '/css/footer-menu.css' );
+  wp_enqueue_style( 'starter-fontawesome', get_template_directory_uri() . '/fonts/font-awesome/css/font-awesome.min.css' );
+  
+  wp_enqueue_style( 'dashicons' );
 
   wp_enqueue_script( 'starter-enquire', get_template_directory_uri() . '/js/plugins/enquire.min.js', false, '20150317', true );
   wp_enqueue_script( 'starter-superfish', get_template_directory_uri() . '/js/plugins/superfish.min.js', array('jquery'), '20150317', true );
@@ -78,6 +82,7 @@ function starter_scripts() {
   wp_enqueue_script( 'starter-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20150317', true );
   wp_enqueue_script( 'starter-superfish-settings', get_template_directory_uri() . '/js/superfish-settings.js', array('jquery'), '20150317', true );
   wp_enqueue_script( 'starter-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20150317', true );
+  wp_enqueue_script( 'starter-totop-control', get_template_directory_uri() . '/js/totop-control.js', array('jquery'), '20150317', true );
   wp_enqueue_script( 'starter-functions', get_template_directory_uri() . '/js/functions.js', array('jquery'), '20150317', true );
   
   if(is_attachment()){
@@ -133,8 +138,12 @@ function starter_has_read_more($content){
 }
 
 function starter_are_comments_disabled() {
-  if(function_exists( 'comments_open' ))
-  return (!comments_open() && '0' == get_comments_number()) || !post_type_supports( get_post_type(), 'comments' ) || post_password_required();
+  // var_dump(is_singular());
+   // var_dump($GLOBALS['post']);
+  
+  if(function_exists( 'comments_open' ) && is_singular())
+    return (!comments_open() && '0' == get_comments_number()) || !post_type_supports( get_post_type(), 'comments' ) || post_password_required();
+  return false;
 }
 
 // ----------------------------- post views count -----------------------------
@@ -181,12 +190,17 @@ add_action('manage_posts_custom_column', 'posts_custom_column_views',5,2);
 // init post views count (create records for each post in the DB)
 function starter_init_post_views(){
   global $wpdb;
-  $ids=$wpdb->get_col("select id from wp_posts where post_type = 'post' AND (post_status = 'publish' OR post_status = 'private')");
+  $ids=$wpdb->get_col("select id from ". $wpdb->posts." where post_type = 'post' AND (post_status = 'publish' OR post_status = 'private')");
+  
   $key='post_views_count';
   foreach($ids as $pid){
-    $res=$wpdb->get_row("select * from wp_postmeta where post_id=".$pid." and meta_key='".$key."'");
+    $res=$wpdb->get_row("select * from ". $wpdb->postmeta." where post_id=".$pid." and meta_key='".$key."'");
+    
     if(!$res){
-      $wpdb->insert('wp_postmeta',
+      // $wpdb->show_errors();
+      $table=$wpdb->postmeta;
+      
+      $wpdb->insert($wpdb->postmeta,
         array(
           'post_id'=>$pid,
           'meta_key'=>$key,
@@ -265,8 +279,9 @@ function add_category_custom_fields($tag) {
   
   $color="#000000";
   $use_custom=0;
+  $table_name=$wpdb->prefix.'category_meta';
   
-  $res=$wpdb->get_row('select * from wp_category_meta where cat_id='.$cat_id);
+  $res=$wpdb->get_row('select * from '.$table_name.' where cat_id='.$cat_id);
   if($res){
     $color=$res->meta_color;
     $use_custom=$res->use_custom_color;
@@ -301,12 +316,14 @@ function save_category_custom_fields() {
     if($use_custom) $use_custom=1;
     
     global $wpdb;
-    $category=$wpdb->get_row('select * from wp_category_meta where cat_id='.$cat_id);
+    $table_name=$wpdb->prefix.'category_meta';
+    
+    $category=$wpdb->get_row('select * from '.$table_name.' where cat_id='.$cat_id);
     
     // if category is in the wp_category_meta table then update its state (color and its use)
     
     if($category){
-      $wpdb->update('wp_category_meta',
+      $wpdb->update($table_name,
         array(
           'meta_color'=>$color,           //set
           'use_custom_color'=>$use_custom,
@@ -316,7 +333,7 @@ function save_category_custom_fields() {
         array('%d')                       //where format
       );
     }else if($use_custom){                // else add new category color only if the checkbox is selected
-      $wpdb->insert('wp_category_meta',
+      $wpdb->insert($table_name,
         array(
           'cat_id'=>$cat_id,
           'meta_color'=>$color,
@@ -339,11 +356,14 @@ function category_add_color_picker( $hook ) {
 }
 add_action( 'admin_enqueue_scripts', 'category_add_color_picker' );
 
-// add new table for the colors
-function starter_create_category_meta_table() {
-  global $wpdb;
+// add new tables for the colors
 
-  $table_name='wp_category_meta';
+function starter_create_table() {
+  global $wpdb;
+  
+  $table_name=$wpdb->prefix.'category_meta';
+  // $table_name='wp_category_meta';
+
   $charset_collate = $wpdb->get_charset_collate();
 
   $sql = "CREATE TABLE IF NOT EXISTS $table_name (
@@ -356,17 +376,35 @@ function starter_create_category_meta_table() {
   require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
   dbDelta( $sql );
 }
-add_action("after_switch_theme", "starter_create_category_meta_table");
+
+function starter_create_category_meta_tables() {
+  global $wpdb;
+  // $network_wide
+  
+  if ( is_multisite() ) {
+    $current_blog = $wpdb->blogid;
+    $blog_ids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
+
+    foreach ( $blog_ids as $blog_id ) {
+      switch_to_blog( $blog_id );
+      starter_create_table();
+      restore_current_blog();
+    }
+  } else {
+    starter_create_table();
+  } 
+}
+add_action("after_switch_theme", "starter_create_category_meta_tables");
 
 // ----------------------------- disable tags -----------------------------
 
-add_action( 'init', 'starter_remove_tags' );
 function starter_remove_tags() {
     global $wp_taxonomies;
     $tax = 'post_tag'; 
     if( taxonomy_exists( $tax ) )
         unset( $wp_taxonomies[$tax] );
 }
+add_action( 'init', 'starter_remove_tags' );
 
 // ----------------------------- disable image cropping -----------------------------
 
@@ -387,19 +425,19 @@ function disable_image_sizes_crop($sizes){
 
 function starter_admin_theme_options_style( $hook ) {
   if ( 'appearance_page_theme_options' == $hook ) {
-      wp_enqueue_style( 'starter-admin-options' , get_template_directory_uri() . '/css/admin-theme-options.css' );
-      
-      wp_enqueue_script( 'emmet_js', get_template_directory_uri() . '/js/ace/add/emmet.min.js', array('underscore'), '1.0.0', true );
-      
-      wp_enqueue_script( 'ace_js', get_template_directory_uri() . '/js/ace/ace-min/ace.js', '', '1.0.0');
-      wp_enqueue_script( 'ace_mode_js', get_template_directory_uri() . '/js/ace/ace-min/mode-css.js', array( 'ace_js' ), '1.0.0');
-      
-      // wp_enqueue_script( 'ace_language_tools_js', get_template_directory_uri() . '/js/ace/ace-min/ext-language_tools.js', array( 'ace_js' ), '1.0.0', true );
-      wp_enqueue_script( 'ace_emmet_js', get_template_directory_uri() . '/js/ace/ace-min/ext-emmet.js', array( 'ace_js' ), '1.0.0', true );
-      wp_enqueue_script( 'ace_search_js', get_template_directory_uri() . '/js/ace/ace-min/ext-searchbox.js', array( 'ace_js' ), '1.0.0', true );
-      wp_enqueue_script( 'ace_theme_js', get_template_directory_uri() . '/js/ace/add/theme-sublime.js', array( 'ace_js' ), '1.0.0', true );
-      
-      wp_enqueue_script( 'custom_css_js', get_template_directory_uri() . '/js/ace/editor.js', array( 'jquery', 'ace_js' ), '1.0.0', true );
+    wp_enqueue_style( 'starter-admin-options' , get_template_directory_uri() . '/css/admin-theme-options.css' );
+    
+    wp_enqueue_script( 'emmet_js', get_template_directory_uri() . '/js/ace/add/emmet.min.js', array('underscore'), '1.0.0', true );
+    
+    wp_enqueue_script( 'ace_js', get_template_directory_uri() . '/js/ace/ace-min/ace.js', '', '1.0.0');
+    wp_enqueue_script( 'ace_mode_js', get_template_directory_uri() . '/js/ace/ace-min/mode-css.js', array( 'ace_js' ), '1.0.0');
+    
+    // wp_enqueue_script( 'ace_language_tools_js', get_template_directory_uri() . '/js/ace/ace-min/ext-language_tools.js', array( 'ace_js' ), '1.0.0', true );
+    wp_enqueue_script( 'ace_emmet_js', get_template_directory_uri() . '/js/ace/ace-min/ext-emmet.js', array( 'ace_js' ), '1.0.0', true );
+    wp_enqueue_script( 'ace_search_js', get_template_directory_uri() . '/js/ace/ace-min/ext-searchbox.js', array( 'ace_js' ), '1.0.0', true );
+    wp_enqueue_script( 'ace_theme_js', get_template_directory_uri() . '/js/ace/add/theme-sublime.js', array( 'ace_js' ), '1.0.0', true );
+    
+    wp_enqueue_script( 'custom_css_js', get_template_directory_uri() . '/js/ace/editor.js', array( 'jquery', 'ace_js' ), '1.0.0', true );
   }
 }
 add_action( 'admin_enqueue_scripts', 'starter_admin_theme_options_style' );
@@ -462,3 +500,11 @@ function starter_opt($name){
     return $options[$name];
   return false;
 }
+
+// ---------------------------------------- remove [rel='prev/next'] ----------------------------------------
+// fix for post_views_count in Firefox, the setPostViews() function counted twice for current and next post
+
+function starter_remove_rel_links() {
+  remove_action('wp_head', 'adjacent_posts_rel_link_wp_head');
+}
+add_action('init','starter_remove_rel_links'); 

@@ -30,14 +30,16 @@ function starter_customize_register($wp_customize) {
   add_custom_section($wp_customize,'starter_colors_panel','base_colors',$labels);
   add_custom_section($wp_customize,'starter_colors_panel','container_colors',$labels);
   add_custom_section($wp_customize,'starter_colors_panel','nav_colors',$labels);
+  add_custom_section($wp_customize,'starter_colors_panel','footer_nav_colors',$labels);
   add_custom_section($wp_customize,'starter_colors_panel','links_colors',$labels);
   add_custom_section($wp_customize,'starter_colors_panel','other_colors',$labels);
   add_custom_section($wp_customize,'starter_colors_panel','color_settings',$labels);
 
   add_custom_section($wp_customize,'starter_layout_panel','margins',$labels);
+  add_custom_section($wp_customize,'starter_layout_panel','paddings',$labels);
   add_custom_section($wp_customize,'starter_layout_panel','header',$labels);
   
-// ---------------------- color settings --------------------------
+// -------------------------- color settings --------------------------
   
   $labels=starter_get_customizer_labels('colors');
 
@@ -57,6 +59,11 @@ function starter_customize_register($wp_customize) {
   starter_add_color_setting($wp_customize,'nav_colors','nav_current_foreground',$labels,$default_colors);
   starter_add_color_setting($wp_customize,'nav_colors','nav_hover_background',$labels,$default_colors);
   starter_add_color_setting($wp_customize,'nav_colors','nav_hover_foreground',$labels,$default_colors);
+  
+  starter_add_color_setting($wp_customize,'footer_nav_colors','footer_nav_background',$labels,$default_colors);
+  starter_add_color_setting($wp_customize,'footer_nav_colors','footer_nav_foreground',$labels,$default_colors);
+  starter_add_color_setting($wp_customize,'footer_nav_colors','footer_nav_hover_background',$labels,$default_colors);
+  starter_add_color_setting($wp_customize,'footer_nav_colors','footer_nav_hover_foreground',$labels,$default_colors);
 
   starter_add_color_setting($wp_customize,'links_colors','links_color',$labels,$default_colors);
   starter_add_color_setting($wp_customize,'links_colors','links_hover',$labels,$default_colors);
@@ -76,23 +83,27 @@ function starter_customize_register($wp_customize) {
   starter_add_scheme_setting($wp_customize,'color_settings','color_scheme',$labels,'default');
   starter_add_checkbox_setting($wp_customize,'color_settings','use_category_colors',$labels,false,false);
 
-// ------------------------------ layout settings --------------------------------
+// -------------------------- layout settings --------------------------
 
   $labels=starter_get_customizer_labels('layout');
 
-  starter_add_text_setting($wp_customize,'margins','content_area_margin',$labels,$default_layout);
+  starter_add_text_setting($wp_customize,'margins','content_area_top_margin',$labels,$default_layout);
+  starter_add_text_setting($wp_customize,'margins','content_area_bottom_margin',$labels,$default_layout);
+  
   starter_add_text_setting($wp_customize,'margins','blog_post_margin',$labels,$default_layout);
-  starter_add_text_setting($wp_customize,'margins','single_post_margin',$labels,$default_layout);
+  starter_add_text_setting($wp_customize,'margins','last_post_bottom_margin',$labels,$default_layout);
   starter_add_text_setting($wp_customize,'margins','single_post_bottom_margin',$labels,$default_layout);
   starter_add_text_setting($wp_customize,'margins','single_page_bottom_margin',$labels,$default_layout);
-  starter_add_text_setting($wp_customize,'margins','category_bottom_margin',$labels,$default_layout);
   starter_add_text_setting($wp_customize,'margins','post_nav_bottom_margin',$labels,$default_layout,false);
-  starter_add_text_setting($wp_customize,'margins','paging_nav_bottom_margin',$labels,$default_layout);
+  starter_add_text_setting($wp_customize,'margins','paging_nav_top_margin',$labels,$default_layout);
+  
+  starter_add_text_setting($wp_customize,'paddings','site_content_bottom_padding',$labels,$default_layout);
+  starter_add_text_setting($wp_customize,'paddings','category_bottom_padding',$labels,$default_layout);
   
   starter_add_select_setting($wp_customize,'header','header_min_height',$labels,starter_get_header_height_list(),false);
   starter_add_text_setting($wp_customize,'header','menu_dropdown_width',$labels,$default_layout);
 
-// --------------------------- front page option -----------------------------
+// -------------------------- front page option --------------------------
 
   add_frontpage_option($wp_customize);
 }
@@ -413,7 +424,9 @@ function starter_add_custom_style() {
     $use_category_colors=$opt['use_category_colors'];
     if($use_category_colors){
       global $wpdb;
-      $cat_meta=$wpdb->get_results('select * from wp_category_meta where use_custom_color=1');
+      $table_name=$wpdb->prefix.'category_meta';
+      
+      $cat_meta=$wpdb->get_results('select * from '. $table_name .' where use_custom_color=1');
       if($cat_meta){
         $cat_css=starter_get_category_colors_css($cat_meta);
         ?>
@@ -478,23 +491,27 @@ function starter_get_color_scheme_css($data,$useFullData=false) {
       $header_height_1='200px';
       $header_height_2='150px';
       break;
+    default:
+      $header_height_1=$data['header_height_1'];
+      $header_height_2=$data['header_height_2'];
   }
+  
 
   $css = <<<CSS
   /* Color Scheme */
 
   /* Background Color */
     body{
-        color:{$data['body_foreground']};
-        background:{$data['body_background']};
+      color:{$data['body_foreground']};
+      background:{$data['body_background']};
     }
     a{
-        color:{$data['links_color']};
+      color:{$data['links_color']};
     }
     a:hover,
     a:active,
     a:focus{
-        color:{$data['links_hover']};
+      color:{$data['links_hover']};
     }
     
     input[type="text"], 
@@ -503,8 +520,8 @@ function starter_get_color_scheme_css($data,$useFullData=false) {
     input[type="password"], 
     input[type="search"], 
     textarea {
-        color: {$data['fields_foreground']};
-        background: {$data['fields_background']};
+      color: {$data['fields_foreground']};
+      background: {$data['fields_background']};
     }
     input[type="text"]:focus, 
     input[type="email"]:focus, 
@@ -512,12 +529,23 @@ function starter_get_color_scheme_css($data,$useFullData=false) {
     input[type="password"]:focus, 
     input[type="search"]:focus, 
     textarea:focus {
-        color: {$data['fields_foreground']};
-        background: {$data['fields_background']};
+      color: {$data['fields_foreground']};
+      background: {$data['fields_background']};
     }
 
+    .site-header{
+      background:{$data['header_background']};
+    }
+    .site-header,
+    .site-description,
+    .site-branding a,
+    .site-branding a:hover,
+    .site-branding a:focus,
+    .site-branding a:active {
+      color:{$data['header_foreground']};
+    }
     .site-header input[type="search"]{
-        background:{$data['body_background']};
+      background:{$data['body_background']};
     }
 
     .entry-title{
@@ -529,41 +557,23 @@ function starter_get_color_scheme_css($data,$useFullData=false) {
 
     .main-navigation,
     .main-navigation ul ul {
-        background:{$data['nav_background']};
+      background:{$data['nav_background']};
     }
     .main-navigation,
     .main-navigation a{
-        color:{$data['nav_foreground']};
+      color:{$data['nav_foreground']};
     }
     .main-navigation li:hover > a,
     .main-navigation li > a:focus,
     .menu-toggle a:hover,
     .menu-toggle a:focus {
-        color:{$data['nav_hover_foreground']};
-        background:{$data['nav_hover_background']};
+      color:{$data['nav_hover_foreground']};
+      background:{$data['nav_hover_background']};
     }
     .main-navigation.toggled .nav-menu {
       border-top: 1px solid {$data['nav_foreground']};
     }
     
-    .search-results .page-label{
-      color:{$data['nav_foreground']};
-      background: {$data['nav_background']};
-    }
-
-    .site-branding{
-      color:{$data['header_foreground']};
-      background:{$data['header_background']};
-    }
-    .site-header,
-    .site-description,
-    .site-branding a,
-    .site-branding a:hover,
-    .site-branding a:focus,
-    .site-branding a:active {
-      color:{$data['header_foreground']};
-    }
-
     .main-navigation .current-menu-item > a,
     .main-navigation .current-menu-item > a:hover,
     .main-navigation .current-menu-item > a:focus,
@@ -572,8 +582,8 @@ function starter_get_color_scheme_css($data,$useFullData=false) {
     .main-navigation .current_page_item > a:hover,
     .main-navigation .current_page_item > a:focus,
     .main-navigation .current_page_item > a:active{
-        color:{$data['nav_current_foreground']};
-        background:{$data['nav_current_background']};
+      color:{$data['nav_current_foreground']};
+      background:{$data['nav_current_background']};
     }
     .main-navigation .current-menu-ancestor > a,
     .main-navigation .current-menu-ancestor > a:hover,
@@ -585,8 +595,13 @@ function starter_get_color_scheme_css($data,$useFullData=false) {
       background:{$data['nav_current_background']};
     }
     
+    .search-results .page-label{
+      color:{$data['nav_foreground']};
+      background: {$data['nav_background']};
+    }
+    
     .site-content{
-        background:{$data['container_background']};
+      background:{$data['container_background']};
     }
     .page.type-page,
     .post.type-post,
@@ -597,29 +612,58 @@ function starter_get_color_scheme_css($data,$useFullData=false) {
     .paging-navigation,
     .single-post .post-navigation,
     .category .category-content {
-        background:{$data['post_background']};
+      background:{$data['post_background']};
     }
     .category-list-single,
     .search-results .page-header{
-        background: {$data['post_background']};
+      background: {$data['post_background']};
     }
     .lazy{
       background-color:{$data['post_background']};
     }
-    .site-footer{
-        background:{$data['footer_background']};
+    
+    .site-footer .footer-content{
+      background:{$data['footer_background']};
     }
     .site-footer,
     .site-footer a,
     .site-footer a:hover,
     .site-footer a:focus,
     .site-footer a:active{
-        color:{$data['footer_foreground']};
+      color:{$data['footer_foreground']};
+    }
+    
+    .footer-navigation{
+      background:{$data['footer_nav_background']};
+    }
+    .footer-navigation,
+    .footer-navigation a{
+      color:{$data['footer_nav_foreground']};
+    }
+    .footer-navigation li:hover > a,
+    .footer-navigation li > a:focus{
+      color:{$data['footer_nav_hover_foreground']};
+      background:{$data['footer_nav_hover_background']};
     }
 
     pre,code{
       color:{$data['pre_foreground']};
       background:{$data['pre_background']};
+    }
+    
+    pre a,
+    pre a:hover,
+    pre a:focus,
+    pre a:active,
+    code a,
+    code a:hover,
+    code a:focus,
+    code a:active{
+      color:{$data['pre_foreground']};
+    }
+    pre a:hover,
+    code a:hover{
+      text-decoration: none;
     }
 
     .articles tbody tr:hover{
@@ -673,14 +717,15 @@ function starter_get_color_scheme_css($data,$useFullData=false) {
     }
     .comment-navigation .nav-next,
     .post-navigation .nav-next { 
-        border-top-color:{$data['borders_color']};
+      border-top-color:{$data['borders_color']};
     }
     .comment-navigation{ 
-        border-top-color:{$data['borders_color']};
-        border-bottom-color:{$data['borders_color']};
+      border-top-color:{$data['borders_color']};
+      border-bottom-color:{$data['borders_color']};
     }
-    .single-attachment .entry-footer{
-        border-top-color:{$data['borders_color']};
+    .attachment .entry-footer,
+    .footer-navigation{
+      border-top-color:{$data['borders_color']};
     }
     
     .dimmed{
@@ -694,28 +739,40 @@ function starter_get_color_scheme_css($data,$useFullData=false) {
     .search-results .page{
       margin-bottom:{$data['blog_post_margin']};
     }
+    .blog .post.last-post{
+      margin-bottom:{$data['last_post_bottom_margin']};
+    }
+    
+    .site-content{
+      padding-bottom:{$data['site_content_bottom_padding']};
+    }
+    
     .content-area{
-      margin-top:{$data['content_area_margin']};
-      margin-bottom:{$data['content_area_margin']};
+      margin-top:{$data['content_area_top_margin']};
+      margin-bottom:{$data['content_area_bottom_margin']};
     }
     .search-results .page-header{
-      margin-bottom:{$data['content_area_margin']};
+      margin-bottom:{$data['content_area_bottom_margin']};
     }
+    
     .page.type-page,
     .page .comments-area{
       margin-bottom:{$data['single_page_bottom_margin']};
     }
+    
     .category .category-content{
-      margin-bottom:{$data['category_bottom_margin']};
+      padding-bottom:{$data['category_bottom_padding']};
     }
+    
     .site-main .paging-navigation{
-      margin-bottom:{$data['paging_nav_bottom_margin']};
+      margin-top:{$data['paging_nav_top_margin']};
     }
+    
     .single .post,
-    .single .attachment,
-    .single .comments-area{
+    .single .attachment{
       margin-bottom:{$data['single_post_bottom_margin']};
     }
+    
     .single-post .post-navigation{
       margin-bottom:{$customPostNavMargin};
     }
@@ -833,14 +890,21 @@ function starter_get_scheme_settings($scheme,$all=false) {
       'header_foreground'=>'#000',
       'container_background'=>'#fff',
       'post_background'=>'#fff',
-      'footer_background'=>'#828282',
-      'footer_foreground'=>'#fff',
+      'footer_background'=>'#6B6B6B',
+      'footer_foreground'=>'#eee',
+      
       'nav_background'=>'#6B6B6B',
       'nav_foreground'=>'#fff',
       'nav_current_background'=>'#eee',
       'nav_current_foreground'=>'#000',
       'nav_hover_background'=>'#828282',
       'nav_hover_foreground'=>'#fff',
+      
+      'footer_nav_background'=>'#fff',
+      'footer_nav_foreground'=>'#444',
+      'footer_nav_hover_background'=>'#828282',
+      'footer_nav_hover_foreground'=>'#fff',
+      
       'links_color'=>'#000',
       'links_hover'=>'#000',
       'table_hover'=>'#eee',
@@ -853,16 +917,22 @@ function starter_get_scheme_settings($scheme,$all=false) {
       'dimmed_color'=>'#888',
    ),
     'layout'=>array(
-      'content_area_margin'=>'0',
+      // 'content_area_margin'=>'0',
+      'content_area_top_margin'=>'0',
+      'content_area_bottom_margin'=>'0',
+      
       'blog_post_margin'=>'1em',
-      'single_post_margin'=>'0',
+      'last_post_bottom_margin'=>'0',
+      
       'single_post_bottom_margin'=>'0',
       'single_page_bottom_margin'=>'0',
-      'category_bottom_margin'=>'0',
-      'post_nav_bottom_margin'=>'2em',
-      'paging_nav_bottom_margin'=>'2em',
+      'post_nav_bottom_margin'=>'2rem',
+      'paging_nav_top_margin'=>'0',
       'header_min_height'=>'140px',
       'menu_dropdown_width'=>'18rem',
+      
+      'category_bottom_padding'=>'2rem',
+      'site_content_bottom_padding'=>'1rem',
    )
  );
 
@@ -876,12 +946,19 @@ function starter_get_scheme_settings($scheme,$all=false) {
       'post_background'=>'#3a3a3a',
       'footer_background'=>'#202020',
       'footer_foreground'=>'#e2e2e2',
+      
       'nav_background'=>'#111111',
       'nav_foreground'=>'#a0a0a0',
       'nav_current_background'=>'#202020',
       'nav_current_foreground'=>'#e2e2e2',
       'nav_hover_background'=>'#003942',
       'nav_hover_foreground'=>'#f9f9f9',
+      
+      'footer_nav_background'=>'#333333',
+      'footer_nav_foreground'=>'#a0a0a0',
+      'footer_nav_hover_background'=>'#098598',
+      'footer_nav_hover_foreground'=>'#fff',
+      
       'links_color'=>'#e0e0e0',
       'links_hover'=>'#ffffff',
       'table_hover'=>'#444444',
@@ -894,16 +971,22 @@ function starter_get_scheme_settings($scheme,$all=false) {
       'dimmed_color'=>'#bbb',
    ),
     'layout'=>array(
-      'content_area_margin'=>'0',
+      // 'content_area_margin'=>'0',
+      'content_area_top_margin'=>'0',
+      'content_area_bottom_margin'=>'0',
+      
       'blog_post_margin'=>'1em',
-      'single_post_margin'=>'0',
+      'last_post_bottom_margin'=>'0',
+      
       'single_post_bottom_margin'=>'0',
       'single_page_bottom_margin'=>'0',
-      'category_bottom_margin'=>'0',
-      'post_nav_bottom_margin'=>'2em',
-      'paging_nav_bottom_margin'=>'2em',
+      'post_nav_bottom_margin'=>'2rem',
+      'paging_nav_top_margin'=>'0',
       'header_min_height'=>'140px',
-      // 'menu_dropdown_width'=>'18rem',
+      'menu_dropdown_width'=>'18rem',
+      
+      'site_content_bottom_padding'=>'3rem',
+      'category_bottom_padding'=>'2rem',
    )
  );
 
@@ -915,12 +998,19 @@ function starter_get_scheme_settings($scheme,$all=false) {
       'header_foreground'=>'#e0e0e0',
       'container_background'=>'#5081b5',
       'post_background'=>'#d1ebff',
+      
       'nav_background'=>'#0d3d70',
       'nav_foreground'=>'#ffffff',
       'nav_current_background'=>'#22558c',
       'nav_current_foreground'=>'#e0e0e0',
       'nav_hover_background'=>'#36689e',
       'nav_hover_foreground'=>'#f9f9f9',
+      
+      'footer_nav_background'=>'#5081b5',
+      'footer_nav_foreground'=>'#eee',
+      'footer_nav_hover_background'=>'#36689e',
+      'footer_nav_hover_foreground'=>'#f9f9f9',
+      
       'links_color'=>'#020202',
       'links_hover'=>'#0B4789',
       'footer_background'=>'#22558c',
@@ -935,16 +1025,22 @@ function starter_get_scheme_settings($scheme,$all=false) {
       'dimmed_color'=>'#66707a',
    ),
     'layout'=>array(
-      'content_area_margin'=>'2em',
+      // 'content_area_margin'=>'2em',
+      'content_area_top_margin'=>'2em',
+      'content_area_bottom_margin'=>'0',
+      
       'blog_post_margin'=>'2em',
-      'single_post_margin'=>'2em',
+      'last_post_bottom_margin'=>'0',
+      
       'single_post_bottom_margin'=>'2em',
       'single_page_bottom_margin'=>'2em',
-      'category_bottom_margin'=>'2em',
       'post_nav_bottom_margin'=>'2em',
-      'paging_nav_bottom_margin'=>'2em',
+      'paging_nav_top_margin'=>'3rem',
       'header_min_height'=>'140px',
-      // 'menu_dropdown_width'=>'18rem',
+      'menu_dropdown_width'=>'18rem',
+      
+      'site_content_bottom_padding'=>'0',
+      'category_bottom_padding'=>'5rem',
    )
  );
 
@@ -958,12 +1054,19 @@ function starter_get_scheme_settings($scheme,$all=false) {
       'post_background'=>'{{ data.post_background }}',
       'footer_background'=>'{{ data.footer_background }}',
       'footer_foreground'=>'{{ data.footer_foreground }}',
+      
       'nav_background'=>'{{ data.nav_background }}',
       'nav_foreground'=>'{{ data.nav_foreground }}',
       'nav_current_background'=>'{{ data.nav_current_background }}',
       'nav_current_foreground'=>'{{ data.nav_current_foreground }}',
       'nav_hover_background'=>'{{ data.nav_hover_background }}',
       'nav_hover_foreground'=>'{{ data.nav_hover_foreground }}',
+      
+      'footer_nav_background'=>'{{ data.footer_nav_background }}',
+      'footer_nav_foreground'=>'{{ data.footer_nav_foreground }}',
+      'footer_nav_hover_background'=>'{{ data.footer_nav_hover_background }}',
+      'footer_nav_hover_foreground'=>'{{ data.footer_nav_hover_foreground }}',
+      
       'links_color'=>'{{ data.links_color }}',
       'links_hover'=>'{{ data.links_hover }}',
       'table_hover'=>'{{ data.table_hover }}',
@@ -976,24 +1079,27 @@ function starter_get_scheme_settings($scheme,$all=false) {
       'dimmed_color'=>'{{ data.dimmed_color }}',
    ),
     'layout'=>array(
-      'content_area_margin'=>'{{ data.content_area_margin }}',
+      // 'content_area_margin'=>'{{ data.content_area_margin }}',
+      'content_area_top_margin'=>'{{ data.content_area_top_margin }}',
+      'content_area_bottom_margin'=>'{{ data.content_area_bottom_margin }}',
+      
       'blog_post_margin'=>'{{ data.blog_post_margin }}',
-      'single_post_margin'=>'{{ data.single_post_margin }}',
+      'last_post_bottom_margin'=>'{{ data.last_post_bottom_margin }}',
+      
       'single_post_bottom_margin'=>'{{ data.single_post_bottom_margin }}',
       'single_page_bottom_margin'=>'{{ data.single_page_bottom_margin }}',
-      'category_bottom_margin'=>'{{ data.category_bottom_margin }}',
-      'paging_nav_bottom_margin'=>'{{ data.paging_nav_bottom_margin }}',
+      'paging_nav_top_margin'=>'{{ data.paging_nav_top_margin }}',
       'header_min_height'=>'{{ data.header_min_height }}',
+      'header_height_1'=>'{{ data.header_height_1 }}',
+      'header_height_2'=>'{{ data.header_height_2 }}',
       'menu_dropdown_width'=>'{{ data.menu_dropdown_width }}',
+      
+      'site_content_bottom_padding'=>'{{ data.site_content_bottom_padding }}',
+      'category_bottom_padding'=>'{{ data.category_bottom_padding }}',
    ),
  );
 
   if($all){
-   //  $cd=starter_are_comments_disabled();
-   //  $settings=array(
-   //    'comments_disabled'=>$cd,
-   // );
-
     $opt=get_option('starter_scheme_options');
 
     $custom=array(
@@ -1004,12 +1110,19 @@ function starter_get_scheme_settings($scheme,$all=false) {
         'header_foreground'=>$opt['header_foreground'],
         'container_background'=>$opt['container_background'],
         'post_background'=>$opt['post_background'],
+        
         'nav_background'=>$opt['nav_background'],
         'nav_foreground'=>$opt['nav_foreground'],
         'nav_current_background'=>$opt['nav_current_background'],
         'nav_current_foreground'=>$opt['nav_current_foreground'],
         'nav_hover_background'=>$opt['nav_hover_background'],
         'nav_hover_foreground'=>$opt['nav_hover_foreground'],
+        
+        'footer_nav_background'=>$opt['footer_nav_background'],
+        'footer_nav_foreground'=>$opt['footer_nav_foreground'],
+        'footer_nav_hover_background'=>$opt['footer_nav_hover_background'],
+        'footer_nav_hover_foreground'=>$opt['footer_nav_hover_foreground'],
+        
         'links_color'=>$opt['links_color'],
         'links_hover'=>$opt['links_hover'],
         'footer_background'=>$opt['footer_background'],
@@ -1022,20 +1135,26 @@ function starter_get_scheme_settings($scheme,$all=false) {
         'author_comment_background'=>$opt['author_comment_background'],
         'borders_color'=>$opt['borders_color'],
         'dimmed_color'=>$opt['dimmed_color'],
-     ),
+      ),
       'layout'=>array(
-        'content_area_margin'=>$opt['content_area_margin'],
+        // 'content_area_margin'=>$opt['content_area_margin'],
+        'content_area_top_margin'=>$opt['content_area_top_margin'],
+        'content_area_bottom_margin'=>$opt['content_area_bottom_margin'],
+        
         'blog_post_margin'=>$opt['blog_post_margin'],
-        'single_post_margin'=>$opt['single_post_margin'],
+        'last_post_bottom_margin'=>$opt['last_post_bottom_margin'],
+        
         'single_post_bottom_margin'=>$opt['single_post_bottom_margin'],
         'single_page_bottom_margin'=>$opt['single_page_bottom_margin'],
-        'category_bottom_margin'=>$opt['category_bottom_margin'],
         'post_nav_bottom_margin'=>$opt['post_nav_bottom_margin'],
-        'paging_nav_bottom_margin'=>$opt['paging_nav_bottom_margin'],
+        'paging_nav_top_margin'=>$opt['paging_nav_top_margin'],
         'header_min_height'=>$opt['header_min_height'],
-        // 'menu_dropdown_width'=>$opt['menu_dropdown_width'],
-     )
-   );
+        'menu_dropdown_width'=>$opt['menu_dropdown_width'],
+        
+        'site_content_bottom_padding'=>$opt['site_content_bottom_padding'],
+        'category_bottom_padding'=>$opt['category_bottom_padding'],
+      )
+    );
     return array('default'=>$default,'dark'=>$dark,'blue'=>$blue,'custom'=>$custom);
   }
 
@@ -1064,10 +1183,12 @@ function starter_get_customizer_labels($type){
         'base_colors',
         'container_colors',
         'nav_colors',
+        'footer_nav_colors',
         'links_colors',
         'other_colors',
         'color_settings',
         'margins',
+        'paddings',
         'header',
      );
       
@@ -1075,10 +1196,12 @@ function starter_get_customizer_labels($type){
         _x('Base Colors','Customizer: Sections','starter'),
         _x('Cotnainer Colors','Customizer: Sections','starter'),
         _x('Navigation Colors','Customizer: Sections','starter'),
+        _x('Footer Navigation Colors','Customizer: Sections','starter'),
         _x('Links Colors','Customizer: Sections','starter'),
         _x('Other Colors','Customizer: Sections','starter'),
         _x('Color Setting','Customizer: Sections','starter'),
         _x('Margins','Customizer: Sections','starter'),
+        _x('Paddings','Customizer: Sections','starter'),
         _x('Header','Customizer: Sections','starter'),
      );
       
@@ -1093,12 +1216,19 @@ function starter_get_customizer_labels($type){
         'post_background',
         'footer_background',
         'footer_foreground',
+        
         'nav_background',
         'nav_foreground',
         'nav_current_background',
         'nav_current_foreground',
         'nav_hover_background',
         'nav_hover_foreground',
+        
+        'footer_nav_background',
+        'footer_nav_foreground',
+        'footer_nav_hover_background',
+        'footer_nav_hover_foreground',
+        
         'links_color',
         'links_hover',
         
@@ -1124,12 +1254,19 @@ function starter_get_customizer_labels($type){
         _x('Post Background','Customizer: Colors','starter'),
         _x('Footer Background','Customizer: Colors','starter'),
         _x('Footer Foreground','Customizer: Colors','starter'),
+        
         _x('Background','Customizer: Colors','starter'),
         _x('Foreground','Customizer: Colors','starter'),
         _x('Current Background','Customizer: Colors','starter'),
         _x('Current Foreground','Customizer: Colors','starter'),
         _x('Nav Hover Background','Customizer: Colors','starter'),
         _x('Nav Hover Foreground','Customizer: Colors','starter'),
+        
+        _x('Background','Customizer: Colors','starter'),
+        _x('Foreground','Customizer: Colors','starter'),
+        _x('Nav Hover Background','Customizer: Colors','starter'),
+        _x('Nav Hover Foreground','Customizer: Colors','starter'),
+        
         _x('Links Color','Customizer: Colors','starter'),
         _x('Links Hover','Customizer: Colors','starter'),
         _x('Table Hover','Customizer: Colors','starter'),
@@ -1147,30 +1284,40 @@ function starter_get_customizer_labels($type){
       break;
     case 'layout':
       $ids=array(
-        'content_area_margin',
+        'content_area_top_margin',
+        'content_area_bottom_margin',
+        'site_content_bottom_padding',
+        
         'blog_post_margin',
-        'single_post_margin',
+        'last_post_bottom_margin',
+        
         'single_post_bottom_margin',
         'single_page_bottom_margin',
-        'category_bottom_margin',
         'post_nav_bottom_margin',
-        'paging_nav_bottom_margin',
+        'paging_nav_top_margin',
         'header_min_height',
         'menu_dropdown_width',
-     );
+        
+        'category_bottom_padding',
+      );
       
       $labels=array(
-        _x('Content Area Margin','Customizer: Layout','starter'),
+        _x('Content Area Top Margin','Customizer: Layout','starter'),
+        _x('Content Area Bottom Margin','Customizer: Layout','starter'),
+        _x('Site Content Bottom Padding','Customizer: Layout','starter'),
+        
         _x('Blog Post Margin','Customizer: Layout','starter'),
-        _x('Single Post Margin','Customizer: Layout','starter'),
+        _x('Last Post Bottom Margin','Customizer: Layout','starter'),
+        
         _x('Single Post Bottom Margin','Customizer: Layout','starter'),
         _x('Single Page Bottom Margin','Customizer: Layout','starter'),
-        _x('Category Bottom Margin','Customizer: Layout','starter'),
         _x('Post Nav Bottom Margin','Customizer: Layout','starter'),
         _x('Paging Nav Bottom Margin','Customizer: Layout','starter'),
         _x('Header Min Height','Customizer: Layout','starter'),
         _x('Menu Dropdown Width','Customizer: Layout','starter'),
-     );
+        
+        _x('Category Bottom Padding','Customizer: Layout','starter'),
+      );
       
       break;
   }
