@@ -186,6 +186,16 @@ a:focus img {
 /*--------------------------------------------------------------
 2.0 Typography
 --------------------------------------------------------------*/
+
+@font-face {
+    font-family: 'Myriad Pro';
+    src: url('fonts/MyriadPro-Regular.otf');
+}
+@font-face {
+    font-family: 'Minion Pro';
+    src: url('fonts/MinionPro-Regular.otf');
+}
+
 body,
 button,
 input,
@@ -1640,7 +1650,7 @@ ol.children {
 }
 .lazy {
   background-color: #fff;
-  background-image: url("http://localhost/wp-pcadvice/wp-content/themes/starter-point/images/loader.gif");
+  background-image: url("images/loader.gif");
   background-repeat: no-repeat;
   background-position: center;
 }

@@ -1,7 +1,0 @@
-
-# - wp_ prefix for queries change to ($wpdb->) for multisite
-# - debug localhost/wp-pcadvice/blog/google-drive-keyboard-shortcuts/ notice
-
-- check css prefixes (prefixr, http://code.tutsplus.com/tutorials/alternatives-to-prefixr--cms-20626)
-- add px to rem rules
-- add hsl colors

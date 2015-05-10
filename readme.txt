@@ -77,6 +77,11 @@ It has the following options:
 ==== Changelog ====
 
 
+== Version 1.0.9 ==
+
+Add: Put custom fonts to the theme folder (Myriad Pro, Minion Pro)
+
+
 == Version 1.0.8 ==
 
 Change: Post views count for non registered users
