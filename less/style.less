@@ -3,7 +3,7 @@
 Theme Name: Starter Point
 Author: mortalis
 Description: Starter Point is a simple, lightweight, customizable and responsive theme. The main purpose is to put the content in one centered column without sidebars. Posts have only categories without tags. Customizer options allow choose one of the predefined color schemes or change custom theme colors with live preview. Custom header has 3 heights to use for background images. Each category name may have a custom color to distinguish it from others. Categories are organized as list of posts in a table rather than the default blog view. The table has sortable columns and shows views count for each post. Front page has one more option to show most viewed posts with a specified posts count.
-Version: 1.0.8
+Version: 1.1.1
 License: GNU General Public License
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: starter
@@ -19,7 +19,7 @@ Tags: white, black, blue, light, dark, one-column, responsive-layout, accessibil
 4.0 - Forms 
 5.0 - Navigation
   5.1 - Links
-	5.2 - Main Menu 
+  5.2 - Main Menu 
   5.3 - Paging Navigation 
 6.0 - Accessibility
 7.0 - Alignments
@@ -27,16 +27,17 @@ Tags: white, black, blue, light, dark, one-column, responsive-layout, accessibil
 9.0 - Header
 10.0 - Widgets
 11.0 - Content
-	11.1 - Posts and pages
+  11.1 - Posts and pages
   11.2 - Index and Archives
-	11.3 - Asides
+  11.3 - Asides
   11.4 - Image Attachments
-	11.5 - Comments
+  11.5 - Comments
+  11.6 - Tags
 12.0 - Media
 13.0 - Footer
 --------------------------------------------------------------*/
 
-@import 'vars.less';
+@import 'vars/vars.less';
 
 /*--------------------------------------------------------------
 1.0 - Reset
@@ -49,28 +50,28 @@ small, strike, strong, sub, sup, tt, var,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td {
-	border: 0;
-	font-family: inherit;
-	font-size: 100%;
-	font-style: inherit;
-	font-weight: inherit;
-	margin: 0;
-	outline: 0;
-	padding: 0;
-	vertical-align: baseline;
+  border: 0;
+  font-family: inherit;
+  font-size: 100%;
+  font-style: inherit;
+  font-weight: inherit;
+  margin: 0;
+  outline: 0;
+  padding: 0;
+  vertical-align: baseline;
 }
 html {
-	font-size: 62.5%; /* Corrects text resizing oddly in IE6/7 when body font-size is set using em units http://clagnut.com/blog/348/#c790 */
-	overflow-y: scroll; /* Keeps page centered in all browsers regardless of content height */
-	-webkit-text-size-adjust: 100%; /* Prevents iOS text size adjust after orientation change, without disabling user zoom */
-	-ms-text-size-adjust:     100%; /* www.456bereastreet.com/archive/201012/controlling_text_size_in_safari_for_ios_without_disabling_user_zoom/ */
+  font-size: 62.5%; /* Corrects text resizing oddly in IE6/7 when body font-size is set using em units http://clagnut.com/blog/348/#c790 */
+  overflow-y: scroll; /* Keeps page centered in all browsers regardless of content height */
+  -webkit-text-size-adjust: 100%; /* Prevents iOS text size adjust after orientation change, without disabling user zoom */
+  -ms-text-size-adjust:     100%; /* www.456bereastreet.com/archive/201012/controlling_text_size_in_safari_for_ios_without_disabling_user_zoom/ */
 }
 *,
 *:before,
 *:after { /* apply a natural box layout model to all elements; see http://www.paulirish.com/2012/box-sizing-border-box-ftw/ */
-	-webkit-box-sizing: border-box; /* Not needed for modern webkit but still used by Blackberry Browser 7.0; see http://caniuse.com/#search=box-sizing */
-	-moz-box-sizing:    border-box; /* Still needed for Firefox 28; see http://caniuse.com/#search=box-sizing */
-	box-sizing:         border-box;
+  -webkit-box-sizing: border-box; /* Not needed for modern webkit but still used by Blackberry Browser 7.0; see http://caniuse.com/#search=box-sizing */
+  -moz-box-sizing:    border-box; /* Still needed for Firefox 28; see http://caniuse.com/#search=box-sizing */
+  box-sizing:         border-box;
 }
 
 body { 
@@ -87,28 +88,28 @@ header,
 main,
 nav,
 section {
-	display: block;
+  display: block;
 }
 ol, ul {
-	list-style: none;
+  list-style: none;
 }
 table { /* tables still need 'cellspacing="0"' in the markup */
-	border-collapse: separate;
-	border-spacing: 0;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 caption, th, td {
-	font-weight: normal;
-	text-align: left;
+  font-weight: normal;
+  text-align: left;
 }
 blockquote:before, blockquote:after,
 q:before, q:after {
-	content: "";
+  content: "";
 }
 blockquote, q {
-	quotes: "" "";
+  quotes: "" "";
 }
 a img {
-	border: 0;
+  border: 0;
 }
 a:hover,
 a:active,
@@ -226,7 +227,7 @@ mark, ins {
 }
 
 sup, sub {
-    position: relative;	
+    position: relative; 
     height: 0;
     vertical-align: baseline;
     font-size: 75%;
@@ -439,7 +440,7 @@ textarea {
 5.1 Links
 --------------------------------------------------------------*/
 a {
-    text-decoration: none;	
+    text-decoration: none;  
     color: #000;
     color: hsl(0, 0%, 0%);    
 }
@@ -602,7 +603,7 @@ a:visited {
 .comment-navigation .nav-previous,
 .paging-navigation .nav-previous,
 .post-navigation .nav-previous {
-    float: left;	
+    float: left;  
     width: 50%;    
     padding-right: 10%;
 }
@@ -611,7 +612,7 @@ a:visited {
 .paging-navigation .nav-next,
 .post-navigation .nav-next {
     float: right;    
-    width: 50%;	    
+    width: 50%;     
     padding-left: 10%;
     text-align: right;
 }
@@ -686,7 +687,7 @@ span.page-numbers {
 .screen-reader-text:focus {
     top: 5px;
     left: 5px;
-    z-index: 100000; /* Above WP toolbar */	
+    z-index: 100000; /* Above WP toolbar */ 
     clip: auto !important;
     display: block;
     width: auto;
@@ -747,8 +748,8 @@ span.page-numbers {
 .site-content:after,
 .site-footer:before,
 .site-footer:after {
-    display: table;	
-    content: '';	
+    display: table; 
+    content: '';  
 }
 
 .clear:after,
@@ -893,6 +894,7 @@ input[type=search]{
     font-size: 24px;
     font-size: 2.4rem;
     border-bottom: 2px solid #000;    
+    word-break: normal;               /*+++*/
 }
 
 .widget a {
@@ -960,7 +962,7 @@ input[type=search]{
 .widget select { max-width: 100%; }
 
 /* Search widget */
-.widget_search .search-submit {	display: none; }
+.widget_search .search-submit { display: none; }
 
 .footer-widgets { margin: 0 auto; }
 
@@ -975,8 +977,21 @@ input[type=search]{
 
 .footer-widgets .widget {
     float: left;
-    width: 320px;
-    margin: 0 4rem 8rem 4rem;
+    width: 380px;
+    /*margin: 0 4rem 8rem 4rem;*/
+    margin: 0;
+    padding: 0 4rem 4rem 4rem;
+}
+
+/* Footer widgets responsive */
+@media screen and (max-width: 879px) {
+    #footer-widgets { width: 100%!important; }
+    
+    .footer-widgets .widget {
+        float: none;
+        width: 100%;
+        /*margin: 0 0 8rem;*/
+    }
 }
 
 /*--------------------------------------------------------------
@@ -1331,7 +1346,7 @@ blockquote cite {
     font-weight:bold;
 }
 
-.entry-footer ul {
+/*.entry-footer ul {
     padding: 0;
     margin: 0;
     font-size: 16px;
@@ -1345,7 +1360,7 @@ blockquote cite {
     margin-right: 4rem;
 }
 
-.entry-footer i { margin-right: .5rem; }
+.entry-footer i { margin-right: .5rem; }*/
 
 .attachment .entry-footer,
 .page .entry-footer{
@@ -1381,7 +1396,9 @@ blockquote cite {
 .continue-reading i { margin-left: .5em; }
 
 .search-no-results .content-area,
-.error404 .content-area { margin-top: 4rem; }
+.error404 .content-area { 
+  /*margin-top: 4rem; */
+}
 
 .total{
   float:right;
@@ -1597,14 +1614,44 @@ ol.children { list-style-type: none; }
 
 
 /*--------------------------------------------------------------
+11.6 Tags
+--------------------------------------------------------------*/
+
+.tag-list{
+  clear: both;
+  text-align: center;
+  margin: 0 0 -1em 0;
+}
+.single .tag-list{
+  margin: 0;
+}
+.tag-list li{
+  display: inline-block;
+  margin-right: 1rem;
+}
+.tag-list i,
+.tag-list span { 
+  margin-right: .5rem; 
+  vertical-align: middle;
+}
+
+@media screen and (max-width: 620px) { 
+  .tag-list{
+    margin: 0;
+  }
+}
+
+
+/*--------------------------------------------------------------
 12.0 Media
 --------------------------------------------------------------*/
+
 .page-content img.wp-smiley,
 .entry-content img.wp-smiley,
 .comment-content img.wp-smiley {
-	margin-bottom: 0;
-	margin-top: 0;
-	padding: 0;
+  margin-bottom: 0;
+  margin-top: 0;
+  padding: 0;
         border: none;
 }
 
@@ -1660,14 +1707,14 @@ ol.children { list-style-type: none; }
     font-size: 1.4rem;
     font-family: @ssfont;
     background: #eee;
-    background: hsl(0, 0%, 90%);
+    background: hsl(0, 0%, 93%);
 }
 
 .gallery-caption,
 .gallery-caption a,
 .wp-caption .wp-caption-text,
 .wp-caption .wp-caption-text a{
-  color: #fff;
+  color: #000;
 }
 
 .gallery-columns-2 .gallery-item {
@@ -1711,7 +1758,7 @@ ol.children { list-style-type: none; }
 
 .lazy{
   background-color: #fff;
-  background-image: url("http://localhost/wp-pcadvice/wp-content/themes/starter-point/images/loader.gif");
+  background-image: url("images/loader.gif");
   background-repeat: no-repeat;
   background-position: center;
 }

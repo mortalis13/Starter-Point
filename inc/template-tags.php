@@ -14,48 +14,48 @@ if ( ! function_exists( 'starter_paging_nav' ) ) :
  * @return void
  */
 function starter_paging_nav() {
-	// Don't print empty markup if there's only one page.
-	if ( $GLOBALS['wp_query']->max_num_pages < 2 ) {
-		return;
-	}
+  // Don't print empty markup if there's only one page.
+  if ( $GLOBALS['wp_query']->max_num_pages < 2 ) {
+    return;
+  }
 
-	$paged        = get_query_var( 'paged' ) ? intval( get_query_var( 'paged' ) ) : 1;
-	$pagenum_link = html_entity_decode( get_pagenum_link() );
-	$query_args   = array();
-	$url_parts    = explode( '?', $pagenum_link );
+  $paged        = get_query_var( 'paged' ) ? intval( get_query_var( 'paged' ) ) : 1;
+  $pagenum_link = html_entity_decode( get_pagenum_link() );
+  $query_args   = array();
+  $url_parts    = explode( '?', $pagenum_link );
 
-	if ( isset( $url_parts[1] ) ) {
-		wp_parse_str( $url_parts[1], $query_args );
-	}
+  if ( isset( $url_parts[1] ) ) {
+    wp_parse_str( $url_parts[1], $query_args );
+  }
 
-	$pagenum_link = remove_query_arg( array_keys( $query_args ), $pagenum_link );
-	$pagenum_link = trailingslashit( $pagenum_link ) . '%_%';
+  $pagenum_link = remove_query_arg( array_keys( $query_args ), $pagenum_link );
+  $pagenum_link = trailingslashit( $pagenum_link ) . '%_%';
 
-	$format  = $GLOBALS['wp_rewrite']->using_index_permalinks() && ! strpos( $pagenum_link, 'index.php' ) ? 'index.php/' : '';
-	$format .= $GLOBALS['wp_rewrite']->using_permalinks() ? user_trailingslashit( 'page/%#%', 'paged' ) : '?paged=%#%';
+  $format  = $GLOBALS['wp_rewrite']->using_index_permalinks() && ! strpos( $pagenum_link, 'index.php' ) ? 'index.php/' : '';
+  $format .= $GLOBALS['wp_rewrite']->using_permalinks() ? user_trailingslashit( 'page/%#%', 'paged' ) : '?paged=%#%';
 
-	// Set up paginated links.
-	$links = paginate_links( array(
-		'base'     => $pagenum_link,
-		'format'   => $format,
-		'total'    => $GLOBALS['wp_query']->max_num_pages,
-		'current'  => $paged,
-		'mid_size' => 2,
-		'add_args' => array_map( 'urlencode', $query_args ),
-		'prev_text' => '&larr; '.__( 'Previous', 'starter' ),
-		'next_text' => __( 'Next', 'starter' ).' &rarr;',
+  // Set up paginated links.
+  $links = paginate_links( array(
+    'base'     => $pagenum_link,
+    'format'   => $format,
+    'total'    => $GLOBALS['wp_query']->max_num_pages,
+    'current'  => $paged,
+    'mid_size' => 2,
+    'add_args' => array_map( 'urlencode', $query_args ),
+    'prev_text' => '&larr; '.__( 'Previous', 'starter' ),
+    'next_text' => __( 'Next', 'starter' ).' &rarr;',
     'type'      => 'list',
-	) );
+  ) );
 
-	if ( $links ) :
+  if ( $links ) :
 
-	?>
-	<nav class="navigation paging-navigation" role="navigation">
-		<h1 class="screen-reader-text"><?php _e( 'Page navigation', 'starter' ); ?></h1>
-			<?php echo $links; ?>
-	</nav><!-- .navigation -->
-	<?php
-	endif;
+  ?>
+  <nav class="navigation paging-navigation" role="navigation">
+    <h1 class="screen-reader-text"><?php _e( 'Page navigation', 'starter' ); ?></h1>
+      <?php echo $links; ?>
+  </nav><!-- .navigation -->
+  <?php
+  endif;
 }
 endif;
 
@@ -66,28 +66,28 @@ if ( ! function_exists( 'starter_post_nav' ) ) :
  * @return void
  */
 function starter_post_nav() {
-	// Don't print empty markup if there's nowhere to navigate.
-	$previous = ( is_attachment() ) ? get_post( get_post()->post_parent ) : get_adjacent_post( false, '', true );
-	$next     = get_adjacent_post( false, '', false );
+  // Don't print empty markup if there's nowhere to navigate.
+  $previous = ( is_attachment() ) ? get_post( get_post()->post_parent ) : get_adjacent_post( false, '', true );
+  $next     = get_adjacent_post( false, '', false );
 
-	if ( ! $next && ! $previous ) {
-		return;
-	}
-	?>
+  if ( ! $next && ! $previous ) {
+    return;
+  }
+  ?>
 
-	<nav class="navigation post-navigation" role="navigation">
+  <nav class="navigation post-navigation" role="navigation">
     <div class="post-nav-box clear">
-  		<h1 class="screen-reader-text"><?php _e( 'Post navigation', 'starter' ); ?></h1>
-  		<div class="nav-links">
-  			<?php
-  				previous_post_link( '<div class="nav-previous"><div class="nav-indicator">' . __( 'Previous Post', 'starter' ).':' . '</div><h1>%link</h1></div>', '%title',true );
-  				next_post_link(     '<div class="nav-next"><div class="nav-indicator">' . __( 'Next Post', 'starter' ).':' . '</div><h1>%link</h1></div>', '%title',true );
-  			?>
-  		</div><!-- .nav-links -->
+      <h1 class="screen-reader-text"><?php _e( 'Post navigation', 'starter' ); ?></h1>
+      <div class="nav-links">
+        <?php
+          previous_post_link( '<div class="nav-previous"><div class="nav-indicator">' . __( 'Previous Post', 'starter' ).':' . '</div><h1>%link</h1></div>', '%title',true );
+          next_post_link(     '<div class="nav-next"><div class="nav-indicator">' . __( 'Next Post', 'starter' ).':' . '</div><h1>%link</h1></div>', '%title',true );
+        ?>
+      </div><!-- .nav-links -->
     </div><!-- .post-nav-box -->
-	</nav><!-- .navigation -->
+  </nav><!-- .navigation -->
 
-	<?php
+  <?php
 }
 endif;
 
@@ -96,14 +96,14 @@ if ( ! function_exists( 'starter_posted_on' ) ) :
  * Prints HTML with meta information for the current post-date/time and author.
  */
 function starter_posted_on() {
-	$time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time>';
+  $time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time>';
 
-	$time_string = sprintf( $time_string,
-		esc_attr( get_the_date( 'c' ) ),
+  $time_string = sprintf( $time_string,
+    esc_attr( get_the_date( 'c' ) ),
     esc_html( get_the_date( _x('d.m.Y', 'Posted on date', 'starter') ) )
   );
 
-	$time_title=esc_html( get_the_date( _x('H:i', 'Posted on time', 'starter') ) );
+  $time_title=esc_html( get_the_date( _x('H:i', 'Posted on time', 'starter') ) );
 
   // Translators: Text wrapped in mobile-hide class is hidden on wider screens.
   printf( _x( '<span class="posted-on">%1$s</span><span class="mobile-hide"></span>', 'mobile-hide class is used to hide connecting elements like "on" and "." on wider screens.', 'starter' ),
@@ -116,45 +116,50 @@ function starter_posted_on() {
 }
 endif;
 
+if ( ! function_exists( 'starter_categorized_blog' ) ) :
 /**
  * Returns true if a blog has more than 1 category.
  */
 function starter_categorized_blog() {
-	if ( false === ( $all_the_cool_cats = get_transient( 'all_the_cool_cats' ) ) ) {
-		// Create an array of all the categories that are attached to posts.
-		$all_the_cool_cats = get_categories( array(
-			'fields'     => 'ids',
-			'hide_empty' => 1,
-			
-			// We only need to know if there is more than one category.
-			'number'     => 2,
-		) );
+  if ( false === ( $all_the_cool_cats = get_transient( 'all_the_cool_cats' ) ) ) {
+    // Create an array of all the categories that are attached to posts.
+    $all_the_cool_cats = get_categories( array(
+      'fields'     => 'ids',
+      'hide_empty' => 1,
+      
+      // We only need to know if there is more than one category.
+      'number'     => 2,
+    ) );
 
-		// Count the number of categories that are attached to the posts.
-		$all_the_cool_cats = count( $all_the_cool_cats );
+    // Count the number of categories that are attached to the posts.
+    $all_the_cool_cats = count( $all_the_cool_cats );
 
-		set_transient( 'all_the_cool_cats', $all_the_cool_cats );
-	}
+    set_transient( 'all_the_cool_cats', $all_the_cool_cats );
+  }
 
-	if ( $all_the_cool_cats > 1 ) {
-		// This blog has more than 1 category so starter_categorized_blog should return true.
-		return true;
-	} else {
-		// This blog has only 1 category so starter_categorized_blog should return false.
-		return false;
-	}
+  if ( $all_the_cool_cats > 1 ) {
+    // This blog has more than 1 category so starter_categorized_blog should return true.
+    return true;
+  } else {
+    // This blog has only 1 category so starter_categorized_blog should return false.
+    return false;
+  }
 }
+endif;
 
+if ( ! function_exists( 'starter_category_transient_flusher' ) ) :
 /**
  * Flush out the transients used in starter_categorized_blog.
  */
 function starter_category_transient_flusher() {
-	// Like, beat it. Dig?
-	delete_transient( 'all_the_cool_cats' );
+  // Like, beat it. Dig?
+  delete_transient( 'all_the_cool_cats' );
 }
+endif;
 add_action( 'edit_category', 'starter_category_transient_flusher' );
 add_action( 'save_post',     'starter_category_transient_flusher' );
 
+if ( ! function_exists( 'starter_get_sortable_headers' ) ) :
 /**
  * Sortable headers (links and titles) in the category table
  *
@@ -222,7 +227,9 @@ function starter_get_sortable_headers() {
   
   return $links;
 }
+endif;
 
+if ( ! function_exists( 'starter_get_post_class' ) ) :
 /**
  * Get post class for a blog/home page. 
  * Returns the default class for all posts except the last one to apply custom layout styles.
@@ -247,7 +254,9 @@ function starter_get_post_class($home=true) {
   
   return $class;
 }
+endif;
 
+if ( ! function_exists( 'starter_get_category_parents' ) ) :
 /**
  * Get category parents 
  * Override of /wp-includes/category-template.php::get_category_parents()
@@ -267,7 +276,9 @@ function starter_get_category_parents( $id, $link = false, $separator = '/',$cla
   $chain .= '<span class='.$class.'>'.$name.'</span>'.$separator;
   return $chain;
 }
+endif;
 
+if ( ! function_exists( 'starter_get_the_category_list' ) ) :
 /**
  * Get category list 
  * Override of /wp-includes/category-template.php::get_the_category_list()
@@ -309,7 +320,9 @@ function starter_get_the_category_list( $separator = '', $parents=false, $parent
 
   return apply_filters( 'the_category', $thelist, $separator, $parents );
 }
+endif;
 
+if ( ! function_exists( 'starter_get_comments_link' ) ) :
 /**
  * Print comments link (link to comments from posts meta)
  * Override of /wp-includes/comment-template.php::comments_popup_link()
@@ -352,3 +365,4 @@ function starter_get_comments_link() {
 
   echo '</a>';
 }
+endif;

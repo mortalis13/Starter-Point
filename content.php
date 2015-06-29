@@ -16,8 +16,8 @@
               echo '<div class="category-list">' . $category_list . '</div>';
           }
         ?>
-    		<h1 class="entry-title"><a href="<?php the_permalink(); ?>" rel="bookmark"><?php the_title(); ?></a></h1>
-    	</header><!-- .entry-header -->
+        <h1 class="entry-title"><a href="<?php the_permalink(); ?>" rel="bookmark"><?php the_title(); ?></a></h1>
+      </header><!-- .entry-header -->
 
       <div class="entry-content">
           <?php 
@@ -90,8 +90,14 @@
               </a>
           </div>
           
-          <?php $tags=get_the_tag_list(); ?>
-
+          <?php
+            $tags = get_the_tag_list( 
+              '<ul class="tag-list"><li><i class="dashicons dashicons-tag"></i>', 
+              '</li><li><i class="dashicons dashicons-tag"></i>', 
+              '</li></ul>' 
+            );
+            echo $tags;
+          ?>
       </footer><!-- .entry-footer -->
     </div>
     

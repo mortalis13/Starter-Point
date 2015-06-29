@@ -3,19 +3,19 @@ Theme Name: Starter
 Description: Used to style the content editor in posts and pages.
 */
 
-@import 'vars.less';
+@import 'vars/vars.less';
 
 /* =Body
 ----------------------------------------------- */
 html .mceContentBody {
-	/*max-width: 700px;*/
+  /*max-width: 700px;*/
 }
 
 body {
-	color: #404040;
-	font-family: @ssfont;
-	font-size: 20px;
-	line-height: 1.5;
+  color: #404040;
+  font-family: @ssfont;
+  font-size: 20px;
+  line-height: 1.5;
 }
 
 /* =Base elements
@@ -26,12 +26,12 @@ img {
 }
 
 a {
-	color: #000;
+  color: #000;
     color: hsl(0, 0%, 0%);
 }
 
 h1, h2, h3, h4, h5, h6 {
-	clear: right;
+  clear: right;
   font-family: @sfont;
   font-weight: 900;
   color: #000;
@@ -96,7 +96,7 @@ blockquote p {
 }
 
 blockquote {
-	padding: 0 1.5em;
+  padding: 0 1.5em;
     margin-bottom: 1em;
     font-style: italic;
     border-top: solid 1px hsl(0, 0%, 80%);
@@ -143,8 +143,8 @@ blockquote.alignleft cite {
  ----------------------------------------------- */
 
 .wp-caption {
-	margin-bottom: 1.5em;
-	max-width: 100%;
+  margin-bottom: 1.5em;
+  max-width: 100%;
     border: none;
     text-align: center;
     background-color: #fff;
@@ -152,17 +152,17 @@ blockquote.alignleft cite {
     margin: 10px 0;
 }
 .wp-caption img[class*="wp-image-"] {
-	display: block;
-	margin: 0 auto;
+  display: block;
+  margin: 0 auto;
 }
 .wp-caption-text {
-	text-align: center;
+  text-align: center;
 }
 
 .gallery-caption,
 .wp-caption .wp-caption-text,
 .wp-caption-dd {
-	padding: 0.8075em 1em;
+  padding: 0.8075em 1em;
     background: #e5e5e5;
     background: hsl(0, 0%, 90%);
     border-left: #fff solid 5px;
@@ -180,14 +180,14 @@ blockquote.alignleft cite {
 }
 
 .gallery-item:hover .gallery-caption {
-	opacity: 1;
+  opacity: 1;
 }
 
 .gallery img {
     display: block;
 }
 .gallery a img {
-	border: none;
+  border: none;
     height: auto;
     max-width: 100%;
     display: block;
@@ -206,11 +206,11 @@ blockquote.alignleft cite {
 }
 
 .gallery-caption {
-	background-color: hsla(0, 0%, 0%, .8);
-	color: #fff;
-	font-size: 12px;
-	line-height: 1.5;
-	margin: 0!important;
+  background-color: hsla(0, 0%, 0%, .8);
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0!important;
     border: none;
     max-height: 50%;
     opacity: 0;

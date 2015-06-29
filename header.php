@@ -12,13 +12,6 @@
 <meta charset="<?php bloginfo( 'charset' ); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<meta name="resource-type" content="document" />
-<meta http-equiv="content-language" content="en-us" />
-<meta name="author" content="Roman Gudz" />
-<meta name="contact" content="stangerroman@gmail.com" />
-<meta name="description" content="Some tutorials, advices and tricks from my own computer experience on Windows interface and functionality, programs I use, some programming aspects and web topics." />
-<meta name="keywords" content="advices, tricks, tutorials, illustrations, screenshots, computer, internet, windows, windows-7, sublime-text, firefox, wordpress, programming, android" />
-
 <title><?php wp_title( '|', true, 'right' ); ?></title>
 
 <?php 
@@ -27,8 +20,6 @@
     $home_url=network_home_url();
   $home_url=esc_url($home_url).'/';
 ?>
-
-<link rel='shortcut icon' type='image/x-icon' href='<?php echo $home_url.'favicon.ico'?>' />
 
 <link rel="profile" href="http://gmpg.org/xfn/11">
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
@@ -39,7 +30,7 @@
 <body <?php body_class(); ?>>
 <div id="page" class="hfeed site">
 
-	<header id="masthead" class="site-header" role="banner">
+  <header id="masthead" class="site-header" role="banner">
     <?php 
       // adjust header image size in relation to the header height chosen in the customizer
     
@@ -61,10 +52,14 @@
     <div class="site-branding" style="<?php echo $style ?>">
       <?php 
         // if no menu was assigned or the menu has no items then output just the search form
-      
+        
+        $menu_items_count=0;
         $locations = get_nav_menu_locations();
-        $the_menu = wp_get_nav_menu_object( $locations['primary'] ); 
-        $menu_items_count=$the_menu->count;
+        
+        if( isset($locations['primary']) ){
+          $the_menu = wp_get_nav_menu_object( $locations['primary'] ); 
+          $menu_items_count=$the_menu->count;
+        }
 
         if(!has_nav_menu('primary') || !$menu_items_count){
           get_search_form(); 
@@ -74,12 +69,6 @@
       <div class="title-box">
         <h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
         <h2 class="site-description"><?php bloginfo( 'description' ); ?></h2>
-        
-        <?php if ( function_exists( 'the_msls' ) ){ ?>
-          <div class="language-switcher">
-            <?php the_msls(); ?>
-          </div>
-        <?php } ?>
       </div>
     </div>
 
@@ -91,11 +80,6 @@
       </nav><!-- #site-navigation -->
     <?php endif; ?>
     
-    <?php 
-      // if (function_exists('synved_social_share_markup')) echo synved_social_share_markup();
-      // else var_dump('no share');
-    ?>
-    
-	</header><!-- #masthead -->
+  </header><!-- #masthead -->
 
-	<div id="content" class="site-content">
+  <div id="content" class="site-content">

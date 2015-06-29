@@ -14,7 +14,7 @@ function starter_options_init(){
  * Load up the menu page
  */
 function starter_options_add_page() {
-	add_theme_page( __( 'Starter Point Options', 'starter' ), __( 'Starter Point Options', 'starter' ), 'edit_theme_options', 'theme_options', 'starter_options_do_page' );
+  add_theme_page( __( 'Starter Point Options', 'starter' ), __( 'Starter Point Options', 'starter' ), 'edit_theme_options', 'theme_options', 'starter_options_do_page' );
 }
 
 /**

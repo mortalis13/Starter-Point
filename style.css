@@ -1,8 +1,10 @@
 /*
 Theme Name: Starter Point
+Theme URI: https://github.com/mortalis13/Starter-Point
 Author: mortalis
+Author URI: https://github.com/mortalis13
 Description: Starter Point is a simple, lightweight, customizable and responsive theme. The main purpose is to put the content in one centered column without sidebars. Posts have only categories without tags. Customizer options allow choose one of the predefined color schemes or change custom theme colors with live preview. Custom header has 3 heights to use for background images. Each category name may have a custom color to distinguish it from others. Categories are organized as list of posts in a table rather than the default blog view. The table has sortable columns and shows views count for each post. Front page has one more option to show most viewed posts with a specified posts count.
-Version: 1.0.8
+Version: 1.1.1
 License: GNU General Public License
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: starter
@@ -17,7 +19,7 @@ Tags: white, black, blue, light, dark, one-column, responsive-layout, accessibil
 4.0 - Forms 
 5.0 - Navigation
   5.1 - Links
-	5.2 - Main Menu 
+  5.2 - Main Menu 
   5.3 - Paging Navigation 
 6.0 - Accessibility
 7.0 - Alignments
@@ -25,11 +27,12 @@ Tags: white, black, blue, light, dark, one-column, responsive-layout, accessibil
 9.0 - Header
 10.0 - Widgets
 11.0 - Content
-	11.1 - Posts and pages
+  11.1 - Posts and pages
   11.2 - Index and Archives
-	11.3 - Asides
+  11.3 - Asides
   11.4 - Image Attachments
-	11.5 - Comments
+  11.5 - Comments
+  11.6 - Tags
 12.0 - Media
 13.0 - Footer
 --------------------------------------------------------------*/
@@ -186,45 +189,42 @@ a:focus img {
 /*--------------------------------------------------------------
 2.0 Typography
 --------------------------------------------------------------*/
-
 @font-face {
-    font-family: 'Myriad Pro';
-    src: url('fonts/MyriadPro-Regular.otf');
-    font-weight:400;
-    font-style:normal;
+  font-family: 'Myriad Pro';
+  src: url('fonts/MyriadPro-Regular.otf');
+  font-weight: 400;
+  font-style: normal;
 }
 @font-face {
-    font-family: 'Myriad Pro';
-    src: url('fonts/MyriadPro-Bold.otf');
-    font-weight:700;
-    font-style:normal;
+  font-family: 'Myriad Pro';
+  src: url('fonts/MyriadPro-Bold.otf');
+  font-weight: 700;
+  font-style: normal;
 }
 @font-face {
-    font-family: 'Myriad Pro';
-    src: url('fonts/MyriadPro-It.otf');
-    font-weight:400;
-    font-style:italic;
-}
-
-@font-face {
-    font-family: 'Minion Pro';
-    src: url('fonts/MinionPro-Regular.otf');
-    font-weight:400;
-    font-style:normal;
+  font-family: 'Myriad Pro';
+  src: url('fonts/MyriadPro-It.otf');
+  font-weight: 400;
+  font-style: italic;
 }
 @font-face {
-    font-family: 'Minion Pro';
-    src: url('fonts/MinionPro-Bold.otf');
-    font-weight:700;
-    font-style:normal;
+  font-family: 'Minion Pro';
+  src: url('fonts/MinionPro-Regular.otf');
+  font-weight: 400;
+  font-style: normal;
 }
 @font-face {
-    font-family: 'Minion Pro';
-    src: url('fonts/MinionPro-It.otf');
-    font-weight:400;
-    font-style:italic;
+  font-family: 'Minion Pro';
+  src: url('fonts/MinionPro-Bold.otf');
+  font-weight: 700;
+  font-style: normal;
 }
-
+@font-face {
+  font-family: 'Minion Pro';
+  src: url('fonts/MinionPro-It.otf');
+  font-weight: 400;
+  font-style: italic;
+}
 body,
 button,
 input,
@@ -930,6 +930,8 @@ input[type=search] {
   font-size: 24px;
   font-size: 2.4rem;
   border-bottom: 2px solid #000;
+  word-break: normal;
+  /*+++*/
 }
 .widget a {
   font-weight: 700;
@@ -1018,8 +1020,21 @@ input[type=search] {
 }
 .footer-widgets .widget {
   float: left;
-  width: 320px;
-  margin: 0 4rem 8rem 4rem;
+  width: 380px;
+  /*margin: 0 4rem 8rem 4rem;*/
+  margin: 0;
+  padding: 0 4rem 4rem 4rem;
+}
+/* Footer widgets responsive */
+@media screen and (max-width: 879px) {
+  #footer-widgets {
+    width: 100%!important;
+  }
+  .footer-widgets .widget {
+    float: none;
+    width: 100%;
+    /*margin: 0 0 8rem;*/
+  }
 }
 /*--------------------------------------------------------------
 11.0 Content
@@ -1327,21 +1342,21 @@ blockquote cite {
   font-family: "Myriad Pro", sans-serif;
   font-weight: bold;
 }
-.entry-footer ul {
-  padding: 0;
-  margin: 0;
-  font-size: 16px;
-  font-size: 1.6rem;
-  line-height: 2em;
-  list-style-type: none;
+/*.entry-footer ul {
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    font-size: 1.6rem;
+    line-height: 2em;
+    list-style-type: none;
 }
+
 .entry-footer li {
-  display: inline-block;
-  margin-right: 4rem;
+    display: inline-block;
+    margin-right: 4rem;
 }
-.entry-footer i {
-  margin-right: .5rem;
-}
+
+.entry-footer i { margin-right: .5rem; }*/
 .attachment .entry-footer,
 .page .entry-footer {
   border-top: 1px solid #888;
@@ -1374,7 +1389,7 @@ blockquote cite {
 }
 .search-no-results .content-area,
 .error404 .content-area {
-  margin-top: 4rem;
+  /*margin-top: 4rem; */
 }
 .total {
   float: right;
@@ -1581,6 +1596,31 @@ ol.children {
   color: red;
 }
 /*--------------------------------------------------------------
+11.6 Tags
+--------------------------------------------------------------*/
+.tag-list {
+  clear: both;
+  text-align: center;
+  margin: 0 0 -1em 0;
+}
+.single .tag-list {
+  margin: 0;
+}
+.tag-list li {
+  display: inline-block;
+  margin-right: 1rem;
+}
+.tag-list i,
+.tag-list span {
+  margin-right: .5rem;
+  vertical-align: middle;
+}
+@media screen and (max-width: 620px) {
+  .tag-list {
+    margin: 0;
+  }
+}
+/*--------------------------------------------------------------
 12.0 Media
 --------------------------------------------------------------*/
 .page-content img.wp-smiley,
@@ -1638,13 +1678,13 @@ ol.children {
   font-size: 1.4rem;
   font-family: "Myriad Pro", sans-serif;
   background: #eee;
-  background: #e6e6e6;
+  background: #ededed;
 }
 .gallery-caption,
 .gallery-caption a,
 .wp-caption .wp-caption-text,
 .wp-caption .wp-caption-text a {
-  color: #fff;
+  color: #000;
 }
 .gallery-columns-2 .gallery-item {
   max-width: 50%;

@@ -1,9 +1,9 @@
 /*
 Theme Name: Starter
-Layout: Without Sidebar
+Common Content
 */
 
-@import 'vars.less';
+@import 'vars/vars.less';
 
 /*-----------------------------------------------------*/
 
@@ -23,9 +23,16 @@ Layout: Without Sidebar
 }
 
 .content-area{
-  max-width: @contentWidth;
-  max-width: @contentWidthRem;
+  width: @contentWidth;     /*???*/
+  width: @contentWidthRem;
   margin: 0 auto;
+}
+
+.site-main .paging-navigation{  
+  padding-left: 0;
+}
+.paging-navigation ul{  
+  text-align: center;
 }
 
 .single-post .content-area{
@@ -145,18 +152,22 @@ Layout: Without Sidebar
 
 /* ---------------------------------------- category page -----------------------------------------*/
 
+.archive .page-header,
 .category .page-header{
   margin-top: 0;
   margin-bottom:1em;
 }
+.archive .category-content,
 .category .category-content{
   background: #fff;
   margin:0 auto;
   padding: 4rem 7rem 2rem;
 }
+.archive .content-area,
 .category .content-area{
   max-width:100%;
 }
+.archive .paging-navigation,
 .category .paging-navigation{
   text-align: center;
 }
@@ -230,8 +241,9 @@ Layout: Without Sidebar
 }
 
 .search-results .page-header{
-  padding:1rem 7rem;
+  padding:3rem 7rem 1rem;
   margin-bottom:0;
+  margin-top:0;                       
 }
 .search-results .page.type-page{
   padding:3rem 7rem;
@@ -282,6 +294,7 @@ Layout: Without Sidebar
     width:@mdContentWidth;
   }
 
+  .archive .content-area,
   .category .content-area{
     width:100%;
   }
@@ -322,19 +335,6 @@ Layout: Without Sidebar
     padding:2rem 5rem;
     width:@smContentWidth;
   }
-  .category-list-single,
-  .search-results .page-header,
-  .search-results .page.type-page{
-    padding-left:5rem;
-    padding-right:5rem;
-  }
-  
-  .content-area,
-  .post .post-navigation,
-  .page .comments-area,
-  .single .comments-area{
-    width:@smContentWidth;
-  }
 
   .site-header .search-form {
     width:20%;
@@ -357,23 +357,6 @@ Layout: Without Sidebar
   .site-content, 
   .site-footer{
     width:@xsWidth;
-  }
-
-  .post,
-  .page.type-page,
-  .post .post-navigation,
-  .page .comments-area,
-  .single .comments-area{
-    width:@xsWidth;
-  }
-
-  .content-area{
-    width:@xsContentWidth;
-  }
-
-  .category .category-content,{
-    padding-left: 3rem;
-    padding-right: 3rem;
   }
 
   .single-attachment .post-navigation{
@@ -516,30 +499,6 @@ Layout: Without Sidebar
   .entry-title{
     font-size:3rem;
   }
-  
-  .post,
-  .category-list-single,
-  .page.type-page,
-  .page .comments-area,
-  .single .comments-area,
-  .single-attachment .attachment,
-  .search-results .page-header,
-  .search-results .page.type-page{
-    padding-left:2rem;
-    padding-right:2rem;
-  }
-
-  .home .content-area,
-  .blog .content-area,
-  .single .content-area,
-  .page .content-area,
-  .search-results .content-area{
-    width:100%;
-  }
-
-  .category .category-content{
-    padding:2rem 1rem;
-  }
 
   .index-box{
     margin-bottom: 1em;
@@ -620,7 +579,6 @@ Layout: Without Sidebar
     font-size:50%;
   }
 } 
-
 
 /*--------------- TEST ---------------*/
 

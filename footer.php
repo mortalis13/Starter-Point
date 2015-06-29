@@ -8,9 +8,9 @@
  */
 ?>
 
-	</div><!-- #content -->
+  </div><!-- #content -->
 
-	<footer id="colophon" class="site-footer" role="contentinfo">
+  <footer id="colophon" class="site-footer" role="contentinfo">
     <?php if(has_nav_menu('footer')): ?>
       <nav id="footer-navigation" class="footer-navigation clear" role="navigation">
         <?php wp_nav_menu( array( 
@@ -30,9 +30,10 @@
       </div>
     </div>
     
+    <?php get_sidebar( 'footer' ); ?>
+    
     <?php $image=get_template_directory_uri().'/images/to-top@2x.png'; ?>
     <a id="toTop" href="#"><span id="toTopHover"></span><img width="40" height="40" alt="To Top" src="<?php echo $image ?>"></a>
-    
   </footer><!-- #colophon -->
   
   

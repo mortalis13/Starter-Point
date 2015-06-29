@@ -15,13 +15,13 @@ if ( ! function_exists( 'starter_setup' ) ) :
  * as indicating support for post thumbnails.
  */
 function starter_setup() {
-	/*
-	 * Make theme available for translation.
-	 * Translations can be filed in the /languages/ directory.
-	 * If you're building a theme based on starter, use a find and replace
-	 * to change 'starter' to the name of your theme in all the template files
-	 */
-	load_theme_textdomain( 'starter', get_template_directory() . '/languages' );
+  /*
+   * Make theme available for translation.
+   * Translations can be filed in the /languages/ directory.
+   * If you're building a theme based on starter, use a find and replace
+   * to change 'starter' to the name of your theme in all the template files
+   */
+  load_theme_textdomain( 'starter', get_template_directory() . '/languages' );
   
   if ( ! isset( $content_width ) ) {
     $content_width = 1200;
@@ -30,28 +30,28 @@ function starter_setup() {
   // Editor style
   add_editor_style( array( 'css/editor-style.css' ) );
 
-	// Add default posts and comments RSS feed links to head.
-	add_theme_support( 'automatic-feed-links' );
+  // Add default posts and comments RSS feed links to head.
+  add_theme_support( 'automatic-feed-links' );
 
-	// This theme uses wp_nav_menu() in one location.
-	register_nav_menus( array(
+  // This theme uses wp_nav_menu() in one location.
+  register_nav_menus( array(
     'primary' => __( 'Primary Menu', 'starter' ),
-		'footer' => __( 'Footer Menu', 'starter' ),
-	) );
+    'footer' => __( 'Footer Menu', 'starter' ),
+  ) );
 
-	// Setup the WordPress core custom background feature.
-	add_theme_support( 'custom-background', apply_filters( 'starter_custom_background_args', array(
-		'default-color' => 'ffffff',
-	) ) );
+  // Setup the WordPress core custom background feature.
+  add_theme_support( 'custom-background', apply_filters( 'starter_custom_background_args', array(
+    'default-color' => 'ffffff',
+  ) ) );
 
-	// Enable support for HTML5 markup.
-	add_theme_support( 'html5', array(
-		'comment-list',
-		'search-form',
-		'comment-form',
-		'gallery',
+  // Enable support for HTML5 markup.
+  add_theme_support( 'html5', array(
+    'comment-list',
+    'search-form',
+    'comment-form',
+    'gallery',
     'caption',
-	) );
+  ) );
   
   // Init post views
   starter_init_post_views();
@@ -63,15 +63,65 @@ endif; // starter_setup
 add_action( 'after_setup_theme', 'starter_setup' );
 
 /**
+ * Register widgetized area and update sidebar with default widgets.
+ */
+function starter_widgets_init() {
+  register_sidebar( array(
+    'name'          => __( 'Sidebar', 'simone' ),
+    'id'            => 'sidebar-1',
+    'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+    'after_widget'  => '</aside>',
+    'before_title'  => '<h1 class="widget-title">',
+    'after_title'   => '</h1>',
+  ) );
+        
+  register_sidebar( array(
+    'name'          => __( 'Footer Widgets', 'simone' ),
+    'id'            => 'sidebar-2',
+    'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+    'after_widget'  => '</aside>',
+    'before_title'  => '<h1 class="widget-title">',
+    'after_title'   => '</h1>',
+  ) );
+}
+add_action( 'widgets_init', 'starter_widgets_init' );
+
+/**
  * Enqueue scripts and styles.
  */
 function starter_scripts() {
   wp_enqueue_style( 'starter-style', get_stylesheet_uri() );
   wp_enqueue_style( 'starter-content' , get_template_directory_uri() . '/css/content.css' );
+  
+  $starter_sidebar_option = get_option( 'sidebar_option' );
+  $starter_footer_widgets_option = get_option( 'footer_widgets_option' );
+  
+  $sidebar_side_css='sidebar-off.css';
+  if(!is_active_sidebar( 'sidebar-1' ) || $starter_sidebar_option=='sidebar-off')
+    $sidebar_side_css='sidebar-off.css';
+  elseif($starter_sidebar_option=='left-sidebar')
+    $sidebar_side_css='left-sidebar.css';
+  elseif($starter_sidebar_option=='right-sidebar')
+    $sidebar_side_css='right-sidebar.css';
+    
+  wp_enqueue_style( 'starter-sidebar-side' , get_template_directory_uri() . '/css/sidebar/' . $sidebar_side_css );
+  if($starter_sidebar_option!='sidebar-off')
+    wp_enqueue_style( 'starter-sidebar' , get_template_directory_uri() . '/css/sidebar/sidebar.css' );
+  
+  wp_enqueue_style( 'starter-common-media' , get_template_directory_uri() . '/css/common-media.css' );
+    
+  wp_enqueue_style( 'starter-content' , get_template_directory_uri() . '/css/content.css' );
   wp_enqueue_style( 'starter-footer-menu' , get_template_directory_uri() . '/css/footer-menu.css' );
   wp_enqueue_style( 'starter-fontawesome', get_template_directory_uri() . '/fonts/font-awesome/css/font-awesome.min.css' );
   
+  if ( is_active_sidebar( 'sidebar-2' ) && $starter_footer_widgets_option!='footer-widgets-off'){
+    wp_enqueue_style( 'starter-footer-widgets', get_template_directory_uri() . '/css/footer-widgets.css' );
+    wp_enqueue_script( 'starter-masonry', get_template_directory_uri() . '/js/masonry-settings.js', array('masonry'), '20150317', true );
+  }
+  
   wp_enqueue_style( 'dashicons' );
+
+  // <<< scripts >>>
 
   wp_enqueue_script( 'starter-enquire', get_template_directory_uri() . '/js/plugins/enquire.min.js', false, '20150317', true );
   wp_enqueue_script( 'starter-superfish', get_template_directory_uri() . '/js/plugins/superfish.min.js', array('jquery'), '20150317', true );
@@ -89,9 +139,9 @@ function starter_scripts() {
     wp_enqueue_script( 'starter-keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', array( 'jquery' ), '20150317' );
   }
 
-	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
-		wp_enqueue_script( 'comment-reply' );
-	}
+  if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
+    wp_enqueue_script( 'comment-reply' );
+  }
 }
 add_action( 'wp_enqueue_scripts', 'starter_scripts' );
 
@@ -404,7 +454,7 @@ function starter_remove_tags() {
     if( taxonomy_exists( $tax ) )
         unset( $wp_taxonomies[$tax] );
 }
-add_action( 'init', 'starter_remove_tags' );
+// add_action( 'init', 'starter_remove_tags' );
 
 // ----------------------------- disable image cropping -----------------------------
 

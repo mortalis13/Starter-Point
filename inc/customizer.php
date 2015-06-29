@@ -16,12 +16,12 @@ function starter_customize_register($wp_customize) {
   $wp_customize->add_panel('starter_colors_panel', array(
     'capability'=> 'edit_theme_options',
     'title'=> _x('Theme Colors','Customizer: Labels','starter'),
- ));
+  ));
 
   $wp_customize->add_panel('starter_layout_panel', array(
     'capability'=> 'edit_theme_options',
     'title'=> _x('Layout','Customizer: Labels','starter'),
- ));
+  ));
 
 // --------------------------- sections -----------------------------
 
@@ -32,12 +32,15 @@ function starter_customize_register($wp_customize) {
   add_custom_section($wp_customize,'starter_colors_panel','nav_colors',$labels);
   add_custom_section($wp_customize,'starter_colors_panel','footer_nav_colors',$labels);
   add_custom_section($wp_customize,'starter_colors_panel','links_colors',$labels);
+  add_custom_section($wp_customize,'starter_colors_panel','widget_colors',$labels);
   add_custom_section($wp_customize,'starter_colors_panel','other_colors',$labels);
   add_custom_section($wp_customize,'starter_colors_panel','color_settings',$labels);
 
   add_custom_section($wp_customize,'starter_layout_panel','margins',$labels);
   add_custom_section($wp_customize,'starter_layout_panel','paddings',$labels);
   add_custom_section($wp_customize,'starter_layout_panel','header',$labels);
+  add_custom_section($wp_customize,'starter_layout_panel','footer',$labels);
+  add_custom_section($wp_customize,'starter_layout_panel','widgets',$labels);
   
 // -------------------------- color settings --------------------------
   
@@ -67,6 +70,11 @@ function starter_customize_register($wp_customize) {
 
   starter_add_color_setting($wp_customize,'links_colors','links_color',$labels,$default_colors);
   starter_add_color_setting($wp_customize,'links_colors','links_hover',$labels,$default_colors);
+  
+  starter_add_color_setting($wp_customize,'widget_colors','footer_widgets_background',$labels,$default_colors);
+  starter_add_color_setting($wp_customize,'widget_colors','footer_widgets_foreground',$labels,$default_colors);
+  starter_add_color_setting($wp_customize,'widget_colors','footer_widgets_links',$labels,$default_colors);
+  starter_add_color_setting($wp_customize,'widget_colors','footer_widgets_border',$labels,$default_colors);
 
 // other
   
@@ -95,17 +103,25 @@ function starter_customize_register($wp_customize) {
   starter_add_text_setting($wp_customize,'margins','single_post_bottom_margin',$labels,$default_layout);
   starter_add_text_setting($wp_customize,'margins','single_page_bottom_margin',$labels,$default_layout);
   starter_add_text_setting($wp_customize,'margins','post_nav_bottom_margin',$labels,$default_layout,false);
+  starter_add_text_setting($wp_customize,'margins','post_nav_left_right_margin',$labels,$default_layout);
   starter_add_text_setting($wp_customize,'margins','paging_nav_top_margin',$labels,$default_layout);
   
   starter_add_text_setting($wp_customize,'paddings','site_content_bottom_padding',$labels,$default_layout);
   starter_add_text_setting($wp_customize,'paddings','category_bottom_padding',$labels,$default_layout);
+  starter_add_text_setting($wp_customize,'paddings','sidebar_left_padding',$labels,$default_layout);
+  starter_add_text_setting($wp_customize,'paddings','sidebar_right_padding',$labels,$default_layout);
   
   starter_add_select_setting($wp_customize,'header','header_min_height',$labels,starter_get_header_height_list(),false);
   starter_add_text_setting($wp_customize,'header','menu_dropdown_width',$labels,$default_layout);
+  
+  starter_add_text_setting($wp_customize,'footer','footer_menu_width',$labels,$default_layout);
+  starter_add_text_setting($wp_customize,'footer','footer_menu_left_margin',$labels,$default_layout);
+  
+  starter_add_widget_options($wp_customize, 'widgets');
 
 // -------------------------- front page option --------------------------
 
-  add_frontpage_option($wp_customize);
+  starter_add_frontpage_option($wp_customize);
 }
 add_action('customize_register', 'starter_customize_register');
 
@@ -113,9 +129,46 @@ add_action('customize_register', 'starter_customize_register');
 // ----------------------------------------------- helpers ---------------------------------------------------------
 
 
-function add_frontpage_option($wp_customize){
-  $wp_customize->remove_section('static_front_page');
+function starter_add_widget_options($wp_customize, $section){
+  $wp_customize->add_setting('sidebar_option', array(
+    'default'=> 'sidebar-off',
+    'capability'=> 'manage_options',
+    'type'=> 'option',
+    'sanitize_callback'=> 'starter_sanitize_sidebar_options',
+  ));
 
+  $wp_customize->add_control('sidebar_option', array(
+    'label'=> _x('Sidebar Layout','Customizer: Widgets Layout','starter'),
+    'section'=> $section,
+    'type'=> 'radio',
+    'choices'=>array(
+      'left-sidebar'=> _x('Left','Customizer: Widgets Layout','starter'),
+      'right-sidebar'=> _x('Right','Customizer: Widgets Layout','starter'),
+      'sidebar-off'=> _x('Off','Customizer: Widgets Layout','starter'),  
+    ),
+  ));
+  
+  
+  $wp_customize->add_setting('footer_widgets_option', array(
+    'default'=> 'footer-widgets-off',
+    'capability'=> 'manage_options',
+    'type'=> 'option',
+    'sanitize_callback'=> 'starter_sanitize_footer_widgets_options',
+  ));
+
+  $wp_customize->add_control('footer_widgets_option', array(
+    'label'=> _x('Footer Widgets Layout','Customizer: Widgets Layout','starter'),
+    'section'=> $section,
+    'type'=> 'radio',
+    'choices'=>array(
+      'footer-widgets-on'=> _x('On','Customizer: Widgets Layout','starter'),
+      'footer-widgets-off'=> _x('Off','Customizer: Widgets Layout','starter'),  
+    ),
+  ));
+}
+
+function starter_add_frontpage_option($wp_customize){
+  $wp_customize->remove_section('static_front_page');
   
   $wp_customize->add_section(
     'frontpage_option',
@@ -132,38 +185,38 @@ function add_frontpage_option($wp_customize){
     'capability'=> 'manage_options',
     'type'=> 'option',
     'sanitize_callback'=> 'starter_sanitize_frontpage_option',
- ));
+  ));
 
   $wp_customize->add_control('show_on_front', array(
     'label'=> _x('Front page displays','Customizer: Front Page','starter'),
     'section'=> 'frontpage_option',
     'type'=> 'radio',
     'choices'=>starter_get_frontpage_choices(),
- ));
+  ));
 
   $wp_customize->add_setting('page_on_front', array(
     'type'=> 'option',
     'capability'=> 'manage_options',
     'sanitize_callback' => 'absint'
- ));
+  ));
 
   $wp_customize->add_control('page_on_front', array(
     'label'=> _x('Front page','Customizer: Front Page','starter'),
     'section'=> 'frontpage_option',
     'type'=> 'dropdown-pages',
- ));
+  ));
 
   $wp_customize->add_setting('page_for_posts', array(
     'type'=> 'option',
     'capability'=> 'manage_options',
     'sanitize_callback' => 'absint'
- ));
+  ));
 
   $wp_customize->add_control('page_for_posts', array(
     'label'=> _x('Posts page','Customizer: Front Page','starter'),
     'section'=> 'frontpage_option',
     'type'=> 'dropdown-pages',
- ));
+  ));
 
   // ---------------------- custom option [most_viewed]-------------------------------
 
@@ -174,8 +227,8 @@ function add_frontpage_option($wp_customize){
       'capability'=> 'manage_options',
       'type'=>'option',
       'sanitize_callback'=> 'sanitize_text_field',
-   )
- );
+    )
+  );
 
   $wp_customize->add_control(
     new WP_Customize_Control(
@@ -186,9 +239,9 @@ function add_frontpage_option($wp_customize){
         'section'=> 'frontpage_option',
         'settings'=> 'most_viewed_count',
         'type'=> 'number',
-     )
-   )
- );
+      )
+    )
+  );
 }
 
 function add_custom_section($wp_customize,$panel,$id,$labels){
@@ -357,9 +410,9 @@ function starter_add_text_setting($wp_customize,$section,$id,$labels,$defaults,$
  * @param WP_Customize_Manager $wp_customize Theme Customizer object.
  */
 function starter_set_transport($wp_customize) {
-	$wp_customize->get_setting('blogname')->transport         = 'postMessage';
-	$wp_customize->get_setting('blogdescription')->transport  = 'postMessage';
-	$wp_customize->get_setting('header_textcolor')->transport = 'postMessage';
+  $wp_customize->get_setting('blogname')->transport         = 'postMessage';
+  $wp_customize->get_setting('blogdescription')->transport  = 'postMessage';
+  $wp_customize->get_setting('header_textcolor')->transport = 'postMessage';
 }
 add_action('customize_register', 'starter_set_transport');
 
@@ -397,6 +450,29 @@ function starter_sanitize_frontpage_option($value) {
   $frontpage_choices=array_keys(starter_get_frontpage_choices());
   if (! in_array($value, $frontpage_choices))
     $value = 'posts';
+  return $value;
+}
+
+function starter_sanitize_sidebar_options($value) {
+  $choices=array(
+    'left-sidebar',
+    'right-sidebar',
+    'sidebar-off',
+  );
+  
+  if (! in_array($value, $choices))
+    $value = 'sidebar-off';
+  return $value;
+}
+
+function starter_sanitize_footer_widgets_options($value) {
+  $choices=array(
+    'footer-widgets-on',
+    'footer-widgets-off',
+  );
+  
+  if (! in_array($value, $choices))
+    $value = 'footer-widgets-off';
   return $value;
 }
 
@@ -454,12 +530,93 @@ CSS;
   return $cat_css;
 }
 
+function starter_fill_scheme_empty_props($data){
+  $settings=array(
+    'body_background'=>'',
+    'body_foreground'=>'',
+    'header_background'=>'',
+    'header_foreground'=>'',
+    'container_background'=>'',
+    'post_background'=>'',
+    
+    'nav_background'=>'',
+    'nav_foreground'=>'',
+    'nav_current_background'=>'',
+    'nav_current_foreground'=>'',
+    'nav_hover_background'=>'',
+    'nav_hover_foreground'=>'',
+    
+    'footer_nav_background'=>'',
+    'footer_nav_foreground'=>'',
+    'footer_nav_hover_background'=>'',
+    'footer_nav_hover_foreground'=>'',
+    
+    'links_color'=>'',
+    'links_hover'=>'',
+    
+    'footer_widgets_background'=>'',
+    'footer_widgets_foreground'=>'',
+    'footer_widgets_links'=>'',
+    'footer_widgets_border'=>'',
+    
+    'footer_background'=>'',
+    'footer_foreground'=>'',
+    'pre_background'=>'',
+    'pre_foreground'=>'',
+    'table_hover'=>'',
+    'fields_background'=>'',
+    'fields_foreground'=>'',
+    'author_comment_background'=>'',
+    'borders_color'=>'',
+    'dimmed_color'=>'',
+
+    // +++ layout +++
+
+    'content_area_top_margin'=>'',
+    'content_area_bottom_margin'=>'',
+    
+    'blog_post_margin'=>'',
+    'last_post_bottom_margin'=>'',
+    
+    'single_post_bottom_margin'=>'',
+    'single_page_bottom_margin'=>'',
+    'post_nav_bottom_margin'=>'',
+    'post_nav_left_right_margin'=>'',
+    'paging_nav_top_margin'=>'',
+    'header_min_height'=>'',
+    'menu_dropdown_width'=>'',
+    
+    'footer_menu_width'=>'',
+    'footer_menu_left_margin'=>'',
+    
+    'site_content_bottom_padding'=>'',
+    'category_bottom_padding'=>'',
+    'sidebar_left_padding'=>'',
+    'sidebar_right_padding'=>'',
+  );
+
+  $add_properties=array(
+    'color_scheme'=>'',
+    'header_height_1'=>'',
+    'header_height_2'=>'',
+  );
+
+  $data=wp_parse_args($data, $settings);
+  $data=wp_parse_args($data, $add_properties);
+  return $data;
+}
+
 function starter_get_color_scheme_css($data,$useFullData=false) {
+  // if useFullData is true, don't merge the $data from 'colors' and 'layout' arrays, just use the prepared data
+ 
   if(!$useFullData){
     $colors=$data['colors'];
     $layout=$data['layout'];
     $data=array_merge($colors,$layout);
   }
+  $data=starter_fill_scheme_empty_props($data);
+  
+  $color_scheme=$data['color_scheme'];
 
   // conditional post bottom margin in relation to the disabled/enabled comments state
 
@@ -513,6 +670,22 @@ function starter_get_color_scheme_css($data,$useFullData=false) {
     a:focus{
       color:{$data['links_hover']};
     }
+    
+    .site-content .widget a {
+      color:{$data['links_color']};
+    }
+    .site-content .widget a:hover,
+    .site-content .widget a:active,
+    .site-content .widget a:focus{
+      color:{$data['links_hover']};
+    }
+    
+    /*.footer-widgets .widget-title,
+    .footer-widgets .widget a:hover,
+    .footer-widgets .widget a:focus {
+      color:{$data['links_hover']};
+      border-color:{$data['borders_color']};
+    }*/
     
     input[type="text"], 
     input[type="email"], 
@@ -603,6 +776,7 @@ function starter_get_color_scheme_css($data,$useFullData=false) {
     .site-content{
       background:{$data['container_background']};
     }
+    .site-content .widget-area,   /*+++*/
     .page.type-page,
     .post.type-post,
     .page .comments-area,
@@ -611,7 +785,10 @@ function starter_get_color_scheme_css($data,$useFullData=false) {
     .single-post .comments-area,
     .paging-navigation,
     .single-post .post-navigation,
-    .category .category-content {
+    .archive .category-content, 
+    .category .category-content, 
+    .error404 .not-found, 
+    .search .not-found {
       background:{$data['post_background']};
     }
     .category-list-single,
@@ -674,6 +851,27 @@ function starter_get_color_scheme_css($data,$useFullData=false) {
       background:{$data['author_comment_background']};
     }
 
+    /* ------- footer widgets ------- */
+    
+    .footer-widgets {
+      background: {$data['footer_widgets_background']};
+      color: {$data['footer_widgets_foreground']};
+    }
+
+    .footer-widgets .widget-title,
+    .footer-widgets .widget a,
+    .footer-widgets .widget a:hover,
+    .footer-widgets .widget a:focus, 
+    .footer-widgets .widget a:active {
+      color: {$data['footer_widgets_links']};
+      border-color: {$data['footer_widgets_border']};
+    }
+    
+    .footer-widgets table th, table td, 
+    .footer-widgets .widget_nav_menu a, .widget_pages a{
+      border-color: {$data['footer_widgets_border']};
+    }
+    
     /* ------- other ------- */
 
     ins{
@@ -707,6 +905,12 @@ function starter_get_color_scheme_css($data,$useFullData=false) {
     .single-post .post-navigation{
       border-top-color:{$data['borders_color']};
       border-bottom-color:{$data['borders_color']};
+    }
+    .site-content .widget-title {
+      border-bottom-color:{$data['borders_color']};  /*+++*/
+    }
+    .widget_pages a {
+      border-bottom-color:{$data['borders_color']};  /*+++*/
     }
     .comment-body,
     .article-divider{
@@ -747,6 +951,11 @@ function starter_get_color_scheme_css($data,$useFullData=false) {
       padding-bottom:{$data['site_content_bottom_padding']};
     }
     
+    .site-content .widget-area{
+      margin-top:{$data['content_area_top_margin']};  /*+++*/
+      padding-left: {$data['sidebar_left_padding']};
+      padding-right: {$data['sidebar_right_padding']};
+    }
     .content-area{
       margin-top:{$data['content_area_top_margin']};
       margin-bottom:{$data['content_area_bottom_margin']};
@@ -760,6 +969,7 @@ function starter_get_color_scheme_css($data,$useFullData=false) {
       margin-bottom:{$data['single_page_bottom_margin']};
     }
     
+    .archive .category-content,
     .category .category-content{
       padding-bottom:{$data['category_bottom_padding']};
     }
@@ -774,11 +984,18 @@ function starter_get_color_scheme_css($data,$useFullData=false) {
     }
     
     .single-post .post-navigation{
+      margin-left:{$data['post_nav_left_right_margin']};
+      margin-right:{$data['post_nav_left_right_margin']};
       margin-bottom:{$customPostNavMargin};
     }
     
     .main-navigation ul ul li{
       width:{$data['menu_dropdown_width']};
+    }
+    
+    .footer-navigation{
+      width:{$data['footer_menu_width']};
+      margin-left:{$data['footer_menu_left_margin']};
     }
 
     .site-branding{
@@ -794,6 +1011,7 @@ function starter_get_color_scheme_css($data,$useFullData=false) {
         min-height:{$header_height_2};
       }
     }
+    
 CSS;
 
 // keep the title centered vertically
@@ -810,6 +1028,16 @@ if($title_padding){
         padding-bottom: {$title_padding_1};
       }
     }
+
+CSS;
+}
+
+if($color_scheme=='blue'){
+  $css.=<<<CSS
+    .page-header{
+      /*margin-top: 0;*/
+    }
+
 CSS;
 }
 
@@ -883,6 +1111,7 @@ function starter_get_frontpage_choices() {
 
 function starter_get_scheme_settings($scheme,$all=false) {
   $default=array(
+    'color_scheme'=>'default',
     'colors'=>array(
       'body_background'=>'#fff',
       'body_foreground'=>'#000',
@@ -907,6 +1136,12 @@ function starter_get_scheme_settings($scheme,$all=false) {
       
       'links_color'=>'#000',
       'links_hover'=>'#000',
+      
+      'footer_widgets_background'=>'#444',
+      'footer_widgets_foreground'=>'#eee',
+      'footer_widgets_links'=>'#eee',
+      'footer_widgets_border'=>'#ddd',
+      
       'table_hover'=>'#eee',
       'pre_background'=>'#eee',
       'pre_foreground'=>'#000',
@@ -915,7 +1150,7 @@ function starter_get_scheme_settings($scheme,$all=false) {
       'author_comment_background'=>'#ccc',
       'borders_color'=>'#888',
       'dimmed_color'=>'#888',
-   ),
+    ),
     'layout'=>array(
       // 'content_area_margin'=>'0',
       'content_area_top_margin'=>'0',
@@ -927,16 +1162,23 @@ function starter_get_scheme_settings($scheme,$all=false) {
       'single_post_bottom_margin'=>'0',
       'single_page_bottom_margin'=>'0',
       'post_nav_bottom_margin'=>'2rem',
+      'post_nav_left_right_margin'=>'0',
       'paging_nav_top_margin'=>'0',
       'header_min_height'=>'140px',
       'menu_dropdown_width'=>'18rem',
       
-      'category_bottom_padding'=>'2rem',
+      'footer_menu_width'=>'100%',
+      'footer_menu_left_margin'=>'0',
+      
       'site_content_bottom_padding'=>'1rem',
-   )
- );
+      'category_bottom_padding'=>'2rem',
+      'sidebar_left_padding'=>'3rem',
+      'sidebar_right_padding'=>'0',
+    )
+  );
 
   $dark=array(
+    'color_scheme'=>'dark',
     'colors'=>array(
       'body_background'=>'#333333',
       'body_foreground'=>'#ffffff',
@@ -961,6 +1203,12 @@ function starter_get_scheme_settings($scheme,$all=false) {
       
       'links_color'=>'#e0e0e0',
       'links_hover'=>'#ffffff',
+      
+      'footer_widgets_background'=>'#444',
+      'footer_widgets_foreground'=>'#eee',
+      'footer_widgets_links'=>'#eee',
+      'footer_widgets_border'=>'#ddd',
+      
       'table_hover'=>'#444444',
       'pre_background'=>'#2d2d2d',
       'pre_foreground'=>'#ffffff',
@@ -969,7 +1217,7 @@ function starter_get_scheme_settings($scheme,$all=false) {
       'author_comment_background'=>'#333',
       'borders_color'=>'#999',
       'dimmed_color'=>'#bbb',
-   ),
+    ),
     'layout'=>array(
       // 'content_area_margin'=>'0',
       'content_area_top_margin'=>'0',
@@ -981,16 +1229,23 @@ function starter_get_scheme_settings($scheme,$all=false) {
       'single_post_bottom_margin'=>'0',
       'single_page_bottom_margin'=>'0',
       'post_nav_bottom_margin'=>'2rem',
+      'post_nav_left_right_margin'=>'0',
       'paging_nav_top_margin'=>'0',
       'header_min_height'=>'140px',
       'menu_dropdown_width'=>'18rem',
       
+      'footer_menu_width'=>'100%',
+      'footer_menu_left_margin'=>'0',
+      
       'site_content_bottom_padding'=>'3rem',
       'category_bottom_padding'=>'2rem',
-   )
- );
+      'sidebar_left_padding'=>'3rem',
+      'sidebar_right_padding'=>'0',
+    )
+  );
 
   $blue=array(
+    'color_scheme'=>'blue',
     'colors'=>array(
       'body_background'=>'#5081b5',
       'body_foreground'=>'#020202',
@@ -1013,6 +1268,12 @@ function starter_get_scheme_settings($scheme,$all=false) {
       
       'links_color'=>'#020202',
       'links_hover'=>'#0B4789',
+      
+      'footer_widgets_background'=>'#1D456F',
+      'footer_widgets_foreground'=>'#eee',
+      'footer_widgets_links'=>'#eee',
+      'footer_widgets_border'=>'#ABCEF2',
+      
       'footer_background'=>'#22558c',
       'footer_foreground'=>'#e2e2e2',
       'pre_background'=>'#0d3d70',
@@ -1023,7 +1284,7 @@ function starter_get_scheme_settings($scheme,$all=false) {
       'author_comment_background'=>'#B9E1FF',
       'borders_color'=>'#ABCEF2',
       'dimmed_color'=>'#66707a',
-   ),
+    ),
     'layout'=>array(
       // 'content_area_margin'=>'2em',
       'content_area_top_margin'=>'2em',
@@ -1035,16 +1296,23 @@ function starter_get_scheme_settings($scheme,$all=false) {
       'single_post_bottom_margin'=>'2em',
       'single_page_bottom_margin'=>'2em',
       'post_nav_bottom_margin'=>'2em',
+      'post_nav_left_right_margin'=>'0',
       'paging_nav_top_margin'=>'3rem',
       'header_min_height'=>'140px',
       'menu_dropdown_width'=>'18rem',
       
+      'footer_menu_width'=>'100%',
+      'footer_menu_left_margin'=>'0',
+      
       'site_content_bottom_padding'=>'0',
       'category_bottom_padding'=>'5rem',
-   )
- );
+      'sidebar_left_padding'=>'3rem',
+      'sidebar_right_padding'=>'1rem',
+    )
+  );
 
   $preview=array(
+    'color_scheme'=>'preview',
     'colors'=>array(
       'body_background'=>'{{ data.body_background }}',
       'body_foreground'=>'{{ data.body_foreground }}',
@@ -1069,6 +1337,12 @@ function starter_get_scheme_settings($scheme,$all=false) {
       
       'links_color'=>'{{ data.links_color }}',
       'links_hover'=>'{{ data.links_hover }}',
+      
+      'footer_widgets_background'=>'{{ data.footer_widgets_background }}',
+      'footer_widgets_foreground'=>'{{ data.footer_widgets_foreground }}',
+      'footer_widgets_links'=>'{{ data.footer_widgets_links }}',
+      'footer_widgets_border'=>'{{ data.footer_widgets_border }}',
+      
       'table_hover'=>'{{ data.table_hover }}',
       'pre_background'=>'{{ data.pre_background }}',
       'pre_foreground'=>'{{ data.pre_foreground }}',
@@ -1077,7 +1351,7 @@ function starter_get_scheme_settings($scheme,$all=false) {
       'author_comment_background'=>'{{ data.author_comment_background }}',
       'borders_color'=>'{{ data.borders_color }}',
       'dimmed_color'=>'{{ data.dimmed_color }}',
-   ),
+    ),
     'layout'=>array(
       // 'content_area_margin'=>'{{ data.content_area_margin }}',
       'content_area_top_margin'=>'{{ data.content_area_top_margin }}',
@@ -1089,20 +1363,28 @@ function starter_get_scheme_settings($scheme,$all=false) {
       'single_post_bottom_margin'=>'{{ data.single_post_bottom_margin }}',
       'single_page_bottom_margin'=>'{{ data.single_page_bottom_margin }}',
       'paging_nav_top_margin'=>'{{ data.paging_nav_top_margin }}',
+      'post_nav_left_right_margin'=>'{{ data.post_nav_left_right_margin }}',
       'header_min_height'=>'{{ data.header_min_height }}',
       'header_height_1'=>'{{ data.header_height_1 }}',
       'header_height_2'=>'{{ data.header_height_2 }}',
       'menu_dropdown_width'=>'{{ data.menu_dropdown_width }}',
       
+      'footer_menu_width'=>'{{ data.footer_menu_width }}',
+      'footer_menu_left_margin'=>'{{ data.footer_menu_left_margin }}',
+
       'site_content_bottom_padding'=>'{{ data.site_content_bottom_padding }}',
       'category_bottom_padding'=>'{{ data.category_bottom_padding }}',
-   ),
- );
+      'sidebar_left_padding'=>'{{ data.sidebar_left_padding }}',
+      'sidebar_right_padding'=>'{{ data.sidebar_right_padding }}',
+    ),
+  );
 
   if($all){
     $opt=get_option('starter_scheme_options');
+    $opt=starter_fill_scheme_empty_props($opt);
 
     $custom=array(
+      'color_scheme'=>'custom',
       'colors'=>array(
         'body_background'=>$opt['body_background'],
         'body_foreground'=>$opt['body_foreground'],
@@ -1125,6 +1407,12 @@ function starter_get_scheme_settings($scheme,$all=false) {
         
         'links_color'=>$opt['links_color'],
         'links_hover'=>$opt['links_hover'],
+        
+        'footer_widgets_background'=>$opt['footer_widgets_background'],
+        'footer_widgets_foreground'=>$opt['footer_widgets_foreground'],
+        'footer_widgets_links'=>$opt['footer_widgets_links'],
+        'footer_widgets_border'=>$opt['footer_widgets_border'],
+        
         'footer_background'=>$opt['footer_background'],
         'footer_foreground'=>$opt['footer_foreground'],
         'pre_background'=>$opt['pre_background'],
@@ -1147,12 +1435,18 @@ function starter_get_scheme_settings($scheme,$all=false) {
         'single_post_bottom_margin'=>$opt['single_post_bottom_margin'],
         'single_page_bottom_margin'=>$opt['single_page_bottom_margin'],
         'post_nav_bottom_margin'=>$opt['post_nav_bottom_margin'],
+        'post_nav_left_right_margin'=>$opt['post_nav_left_right_margin'],
         'paging_nav_top_margin'=>$opt['paging_nav_top_margin'],
         'header_min_height'=>$opt['header_min_height'],
         'menu_dropdown_width'=>$opt['menu_dropdown_width'],
         
+        'footer_menu_width'=>$opt['footer_menu_width'],
+        'footer_menu_left_margin'=>$opt['footer_menu_left_margin'],
+        
         'site_content_bottom_padding'=>$opt['site_content_bottom_padding'],
         'category_bottom_padding'=>$opt['category_bottom_padding'],
+        'sidebar_left_padding'=>$opt['sidebar_left_padding'],
+        'sidebar_right_padding'=>$opt['sidebar_right_padding'],
       )
     );
     return array('default'=>$default,'dark'=>$dark,'blue'=>$blue,'custom'=>$custom);
@@ -1185,11 +1479,14 @@ function starter_get_customizer_labels($type){
         'nav_colors',
         'footer_nav_colors',
         'links_colors',
+        'widget_colors',
         'other_colors',
         'color_settings',
         'margins',
         'paddings',
         'header',
+        'footer',
+        'widgets',
      );
       
       $labels=array(
@@ -1198,11 +1495,14 @@ function starter_get_customizer_labels($type){
         _x('Navigation Colors','Customizer: Sections','starter'),
         _x('Footer Navigation Colors','Customizer: Sections','starter'),
         _x('Links Colors','Customizer: Sections','starter'),
+        _x('Widget Colors','Customizer: Sections','starter'),
         _x('Other Colors','Customizer: Sections','starter'),
         _x('Color Setting','Customizer: Sections','starter'),
         _x('Margins','Customizer: Sections','starter'),
         _x('Paddings','Customizer: Sections','starter'),
         _x('Header','Customizer: Sections','starter'),
+        _x('Footer','Customizer: Sections','starter'),
+        _x('Widgets','Customizer: Sections','starter'),
      );
       
       break;
@@ -1231,6 +1531,11 @@ function starter_get_customizer_labels($type){
         
         'links_color',
         'links_hover',
+        
+        'footer_widgets_background',
+        'footer_widgets_foreground',
+        'footer_widgets_links',
+        'footer_widgets_border',
         
         'table_hover',
         'pre_background',
@@ -1269,6 +1574,12 @@ function starter_get_customizer_labels($type){
         
         _x('Links Color','Customizer: Colors','starter'),
         _x('Links Hover','Customizer: Colors','starter'),
+        
+        _x('Footer Widgets Background','Customizer: Colors','starter'),
+        _x('Footer Widgets Foreground','Customizer: Colors','starter'),
+        _x('Footer Widgets Links','Customizer: Colors','starter'),
+        _x('Footer Widgets Border','Customizer: Colors','starter'),
+        
         _x('Table Hover','Customizer: Colors','starter'),
         _x('Predefined Background','Customizer: Colors','starter'),
         _x('Predefined Foreground','Customizer: Colors','starter'),
@@ -1294,11 +1605,17 @@ function starter_get_customizer_labels($type){
         'single_post_bottom_margin',
         'single_page_bottom_margin',
         'post_nav_bottom_margin',
+        'post_nav_left_right_margin',
         'paging_nav_top_margin',
         'header_min_height',
         'menu_dropdown_width',
         
+        'footer_menu_width',
+        'footer_menu_left_margin',
+        
         'category_bottom_padding',
+        'sidebar_left_padding',
+        'sidebar_right_padding',
       );
       
       $labels=array(
@@ -1312,11 +1629,17 @@ function starter_get_customizer_labels($type){
         _x('Single Post Bottom Margin','Customizer: Layout','starter'),
         _x('Single Page Bottom Margin','Customizer: Layout','starter'),
         _x('Post Nav Bottom Margin','Customizer: Layout','starter'),
+        _x('Post Nav Left-Right Margin','Customizer: Layout','starter'),
         _x('Paging Nav Bottom Margin','Customizer: Layout','starter'),
         _x('Header Min Height','Customizer: Layout','starter'),
         _x('Menu Dropdown Width','Customizer: Layout','starter'),
         
+        _x('Footer Menu Width','Customizer: Layout','starter'),
+        _x('Footer Menu Left Margin','Customizer: Layout','starter'),
+        
         _x('Category Bottom Padding','Customizer: Layout','starter'),
+        _x('Sidebar Left Padding','Customizer: Layout','starter'),
+        _x('Sidebar Right Padding','Customizer: Layout','starter'),
       );
       
       break;
