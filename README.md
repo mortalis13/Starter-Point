@@ -41,7 +41,7 @@ Extended options available from the **Customizer**:
 The admin side has the "**Starter Point Options**" page under the Appearance item.  
 It has the following options:
 
-1. **Disable Image Croppin**g: prevents WP from creating thumbnails of small/medium/large size when uploading images thgrough the Media manager.
+1. **Disable Image Cropping**: prevents WP from creating thumbnails of small/medium/large size when uploading images thgrough the Media manager.
 2. **Custom CSS** editor is based on the **Ace Editor** engine. Allows to add any CSS style to pages and posts.
 3. **Use Custom CSS** option: enables/disables including of the custom CSS from the editor.
 4. **Restore Factory Style**: button to remove color scheme style changed in the **Customizer** and to restore the original theme scheme.
@@ -66,12 +66,12 @@ It has the following options:
 
 ## Links
 
-1. **Font Awesome**: http://fontawesome.io
-2. **Superfish**: http://users.tpg.com.au/j_birch/plugins/superfish
-3. **Enquire.js**: http://wicky.nillia.ms/enquire.js
-4. **hoverIntent jQuery plugin**: http://cherne.net/brian/resources/jquery.hoverIntent.html
-5. **Lazy Load jQuery plugin**: http://www.appelsiini.net/projects/lazyload
-6. **Ace Editor**: http://ace.c9.io
+1. Font Awesome: http://fontawesome.io
+2. Superfish: http://users.tpg.com.au/j_birch/plugins/superfish
+3. Enquire.js: http://wicky.nillia.ms/enquire.js
+4. hoverIntent jQuery plugin: http://cherne.net/brian/resources/jquery.hoverIntent.html
+5. Lazy Load jQuery plugin: http://www.appelsiini.net/projects/lazyload
+6. Ace Editor: http://ace.c9.io
 
 
 ## To change category color
