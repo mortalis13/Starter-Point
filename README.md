@@ -5,13 +5,7 @@ Tested up to: 4.2
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
-Starter Point is a simple, lightweight, customizable and responsive theme.  
-The theme has ability to add left/right sidebar or disable it to show the content in one column.  
-Posts may have categories and tags. Customizer options allow choose one of the predefined color schemes or change custom theme colors with live preview.  
-Custom header has 3 heights to use for background images. Each category name may have a custom color to distinguish it from others.  
-Customizer also allows to change some layout options. Categories are organized as list of posts in a table rather than the default blog view.  
-The table has sortable columns and shows views count for each post. Front page has one more option to show most viewed posts with a specified posts count.  
-Theme options let you disable image cropping on upload, add custom CSS to pages, restore factory style (default color scheme). Two menu types are available: header and footer menu. 
+Starter Point is a simple, lightweight, customizable and responsive theme. The theme has ability to add left/right sidebar or disable it to show the content in one column. Posts may have categories and tags. Customizer options allow choose one of the predefined color schemes or change custom theme colors with live preview. Custom header has 3 heights to use for background images. Each category name may have a custom color to distinguish it from others. Customizer also allows to change some layout options. Categories are organized as list of posts in a table rather than the default blog view. The table has sortable columns and shows views count for each post. Front page has one more option to show most viewed posts with a specified posts count. Theme options let you disable image cropping on upload, add custom CSS to pages, restore factory style (default color scheme). Two menu types are available: header and footer menu.
 
 
 ## Features
@@ -38,8 +32,8 @@ Extended options available from the **Customizer**:
 
 ### Showing the content
 
-1. Blog view: Blog posts show full content by default, the reduced content is shown when there is a Read More link or an Excerpt for a particular post.
-2. Category view: Posts in a category are listed within a table with sortable headers. The dropdown element allows to change how many posts per page are shown. The table has additional column Views to show how many times a post has been viewed.
+1. **Blog view**: Blog posts show full content by default, the reduced content is shown when there is a **Read More** link or an Excerpt for a particular post.
+2. **Category view**: Posts in a category are listed within a table with sortable headers. The dropdown element allows to change how many posts per page are shown. The table has additional column Views to show how many times a post has been viewed.
 
 
 ### Theme Options
@@ -48,7 +42,7 @@ The admin side has the "**Starter Point Options**" page under the Appearance ite
 It has the following options:
 
 1. **Disable Image Croppin**g: prevents WP from creating thumbnails of small/medium/large size when uploading images thgrough the Media manager.
-2. **Custom CSS** editor is based on the Ace Editor engine. Allows to add any CSS style to pages and posts.
+2. **Custom CSS** editor is based on the **Ace Editor** engine. Allows to add any CSS style to pages and posts.
 3. **Use Custom CSS** option: enables/disables including of the custom CSS from the editor.
 4. **Restore Factory Style**: button to remove color scheme style changed in the **Customizer** and to restore the original theme scheme.
 
@@ -58,7 +52,7 @@ It has the following options:
 1. The title of a page shows information about the current page, site name and page number.
 2. The Theme supports image galleries with captions appearing on image hover.
 3. To Top button appears when a page scrolls down. It performs the smooth upscrolling.
-4. The Theme features one custom font: FontAwesome.
+4. The Theme features one custom font: **FontAwesome**.
 5. Image attachments have image navigation which is accessible through the Right/Left keys.
 6. Additional JavaScript plugins:
  - The accessible main menu is powered by **Superfish**.
@@ -72,12 +66,12 @@ It has the following options:
 
 ## Links
 
-1. Font Awesome: http://fontawesome.io
-2. Superfish: http://users.tpg.com.au/j_birch/plugins/superfish
-3. Enquire.js: http://wicky.nillia.ms/enquire.js
-4. hoverIntent jQuery plugin: http://cherne.net/brian/resources/jquery.hoverIntent.html
-5. Lazy Load jQuery plugin: http://www.appelsiini.net/projects/lazyload
-6. Ace Editor: http://ace.c9.io
+1. **Font Awesome**: http://fontawesome.io
+2. **Superfish**: http://users.tpg.com.au/j_birch/plugins/superfish
+3. **Enquire.js**: http://wicky.nillia.ms/enquire.js
+4. **hoverIntent jQuery plugin**: http://cherne.net/brian/resources/jquery.hoverIntent.html
+5. **Lazy Load jQuery plugin**: http://www.appelsiini.net/projects/lazyload
+6. **Ace Editor**: http://ace.c9.io
 
 
 ## To change category color
