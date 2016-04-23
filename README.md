@@ -1,18 +1,14 @@
 # Starter Point
 
 Requires at least: 4.1
-
 Tested up to: 4.2
-
 License: GPLv2 or later
-
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Starter Point is a simple, lightweight, customizable and responsive theme. The theme has ability to add left/right sidebar or disable it to show the content in one column. Posts may have categories and tags. Customizer options allow choose one of the predefined color schemes or change custom theme colors with live preview. Custom header has 3 heights to use for background images. Each category name may have a custom color to distinguish it from others. Customizer also allows to change some layout options. Categories are organized as list of posts in a table rather than the default blog view. The table has sortable columns and shows views count for each post. Front page has one more option to show most viewed posts with a specified posts count. Theme options let you disable image cropping on upload, add custom CSS to pages, restore factory style (default color scheme). Two menu types are available: header and footer menu. 
 
 
 ## Features
-
 
 ### Translations
 
@@ -71,19 +67,12 @@ It has the following options:
 
 ## Links
 
-1. Font Awesome: http://fontawesome.io, 
-
-license: http://fontawesome.io/license.
-2. Superfish: http://users.tpg.com.au/j_birch/plugins/superfish, 
-license: https://github.com/joeldbirch/superfish/blob/master/MIT-LICENSE.txt.
-3. Enquire.js: http://wicky.nillia.ms/enquire.js, 
-license: http://wicky.nillia.ms/enquire.js/#license.
-4. hoverIntent jQuery plugin: http://cherne.net/brian/resources/jquery.hoverIntent.html, 
-license: http://opensource.org/licenses/MIT.
-5. Lazy Load jQuery plugin: http://www.appelsiini.net/projects/lazyload, 
-license: http://opensource.org/licenses/MIT.
-6. Ace Editor: http://ace.c9.io, 
-license: https://github.com/ajaxorg/ace/blob/master/LICENSE.
+1. Font Awesome: http://fontawesome.io
+2. Superfish: http://users.tpg.com.au/j_birch/plugins/superfish
+3. Enquire.js: http://wicky.nillia.ms/enquire.js
+4. hoverIntent jQuery plugin: http://cherne.net/brian/resources/jquery.hoverIntent.html
+5. Lazy Load jQuery plugin: http://www.appelsiini.net/projects/lazyload
+6. Ace Editor: http://ace.c9.io
 
 
 ## To change category color
@@ -199,10 +188,8 @@ license: https://github.com/ajaxorg/ace/blob/master/LICENSE.
 - Add: Customizer option to select the Menu Dropdown Width. It allows to change the width of the dropdown list of menu subitems.
 - Add: Custom CSS text field in the Theme Options page.
 - Add: Use Custom CSS option to enable/disable including inline custom style.
-
 - Change: Lazy image load feature uses animated loader image.
 - Change: To Top button vertical coordinate lest it cover the footer on screen reduction.
-
 - Fix: With the Use Custom Color option new categories have the default link color (not the black from the category edit page).
 - Fix: Single attachment entry title aligns properly if no image navigation present.
 - Fix: Images are loaded with a transparent source and are shown by the Lazy Load script (before images had their own source on load which was not the right way to use Lazy Load).
