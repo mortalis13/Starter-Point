@@ -1,9 +1,9 @@
 # Starter Point
 
-Requires at least: 4.1
-Tested up to: 4.2
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Requires at least: 4.1 
+Tested up to: 4.2 
+License: GPLv2 or later 
+License URI: http://www.gnu.org/licenses/gpl-2.0.html 
 
 Starter Point is a simple, lightweight, customizable and responsive theme. The theme has ability to add left/right sidebar or disable it to show the content in one column. Posts may have categories and tags. Customizer options allow choose one of the predefined color schemes or change custom theme colors with live preview. Custom header has 3 heights to use for background images. Each category name may have a custom color to distinguish it from others. Customizer also allows to change some layout options. Categories are organized as list of posts in a table rather than the default blog view. The table has sortable columns and shows views count for each post. Front page has one more option to show most viewed posts with a specified posts count. Theme options let you disable image cropping on upload, add custom CSS to pages, restore factory style (default color scheme). Two menu types are available: header and footer menu. 
 
@@ -39,7 +39,6 @@ Extended options available from the Customizer:
 ### Theme Options
 
 The admin side has the "Starter Point Options" page under the Appearance item. 
-
 It has the following options:
 
 1. Disable Image Cropping: prevents WP from creating thumbnails of small/medium/large size when uploading images thgrough the Media manager.
@@ -100,7 +99,6 @@ It has the following options:
 - Add: Customizer options: 'Post Nav Left-Right Margin', 'Sidebar Left Padding', 'Sidebar Right Padding' 
 - Add: Customizer options: 'Footer Menu Width', 'Footer Menu Left Margin'
 - Add: Customizer options: 'Sidebar Layout', 'Footer Widgets Layout'
-
 - Fix: Warnings in debug mode when a page reloads after a color/layout setting is changed in the Customizer
 - Fix: Animated loader image path (change from absolute to relative)
 
@@ -120,14 +118,11 @@ It has the following options:
 
 - Add: Footer Navigation color options to Customizer
 - Add: Customizer options: 'Content Area Top/Bottom Margin', 'Last Post Bottom Margin', 'Site Content Bottom Padding'
-
 - Remove: Customizer options: 'Content Area Margin', 'Category Site Bottom Padding'
-
 - Change: Footer menu position (it's above the footer content)
 - Change: Footer menu style
 - Change: Default colors and layouts for default color schemes
 - Change: 'toTop' button anchor container from the footer itself to its content subcontainer
-
 - Fix: Some settings in Customizer didn't save to the database because they didn't change
 
 
@@ -137,7 +132,6 @@ It has the following options:
 - Add: Control script for the 'toTop' button to prevent intersection with the footer
 - Add: Paddings Customizer section
 - Add: Customizer options: 'Category Bottom Padding', 'Category Site Bottom Padding'
-
 - Fix: Customizer didn't load live preview correctly when debugging is enabled
 - Fix: Synchronized default color scheme with CSS rules in the style.css and content.css
 
@@ -152,9 +146,7 @@ It has the following options:
 ### Version 1.0.4
 
 - Add: Use Category Colors global option on the Theme Options page
-
 - Change: Added minified and simplified versions of some .js scripts
-
 - Fix: Ace editor syntax checking now works
 - Fix: Ace editor inner margins and full screen behavior in responsiveness aspect
 - Fix: Warnings for undefined variables on theme install
