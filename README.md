@@ -191,12 +191,12 @@ It has the following options:
 
 ![](screenshots/starter-point-1.png)
 ---
-Colors Customization  
+**Colors Customization**  
 ![](screenshots/starter-point-2.png)
 ---
-Category Colors  
+**Category Colors**  
 ![](screenshots/starter-point-3.png)
 ---
-Theme Options with Ace Editor for the Custom CSS  
+**Theme Options with Ace Editor for the Custom CSS**  
 ![](screenshots/starter-point-4.png)
 ---
