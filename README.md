@@ -1,10 +1,9 @@
 # Starter Point
 
-Requires at least: 4.1 
-
-Tested up to: 4.2 
-License: GPLv2 or later 
-License URI: http://www.gnu.org/licenses/gpl-2.0.html 
+Requires at least: 4.1  
+Tested up to: 4.2  
+License: GPLv2 or later  
+License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
 Starter Point is a simple, lightweight, customizable and responsive theme. The theme has ability to add left/right sidebar or disable it to show the content in one column. Posts may have categories and tags. Customizer options allow choose one of the predefined color schemes or change custom theme colors with live preview. Custom header has 3 heights to use for background images. Each category name may have a custom color to distinguish it from others. Customizer also allows to change some layout options. Categories are organized as list of posts in a table rather than the default blog view. The table has sortable columns and shows views count for each post. Front page has one more option to show most viewed posts with a specified posts count. Theme options let you disable image cropping on upload, add custom CSS to pages, restore factory style (default color scheme). Two menu types are available: header and footer menu. 
 
