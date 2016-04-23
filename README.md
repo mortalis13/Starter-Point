@@ -185,3 +185,15 @@ It has the following options:
 - **Fix**: With the Use Custom Color option new categories have the default link color (not the black from the category edit page).
 - **Fix**: Single attachment entry title aligns properly if no image navigation present.
 - **Fix**: Images are loaded with a transparent source and are shown by the Lazy Load script (before images had their own source on load which was not the right way to use Lazy Load).
+
+
+## Screenshots
+
+![](screenshots/starter-point-1.png)
+---
+![](screenshots/starter-point-2.png)
+---
+![](screenshots/starter-point-3.png)
+---
+![](screenshots/starter-point-4.png)
+---
