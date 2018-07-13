@@ -4,7 +4,7 @@ Theme URI: https://github.com/mortalis13/Starter-Point
 Author: mortalis
 Author URI: https://github.com/mortalis13
 Description: Starter Point is a simple, lightweight, customizable and responsive theme. The main purpose is to put the content in one centered column without sidebars. Posts have only categories without tags. Customizer options allow choose one of the predefined color schemes or change custom theme colors with live preview. Custom header has 3 heights to use for background images. Each category name may have a custom color to distinguish it from others. Categories are organized as list of posts in a table rather than the default blog view. The table has sortable columns and shows views count for each post. Front page has one more option to show most viewed posts with a specified posts count.
-Version: 1.1.1
+Version: 1.1.2
 License: GNU General Public License
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: starter
@@ -36,11 +36,11 @@ Tags: white, black, blue, light, dark, one-column, responsive-layout, accessibil
 12.0 - Media
 13.0 - Footer
 --------------------------------------------------------------*/
-/* ----------------------------------- fonts ------------------------------- */
+
+/* ----------------------------------- fonts  ------------------------------- */
 /* ----------------------------------- widths ------------------------------- */
 /* ----------------------------------- colors ------------------------------- */
 .secondaryBackground {
-  background-color: #6B6B6B;
   background-color: #6b6b6b;
 }
 /*--------------------------------------------------------------
@@ -234,7 +234,6 @@ textarea {
   font-size: 1.8rem;
   font-family: "Myriad Pro", sans-serif;
   line-height: 1.5;
-  color: #000;
   color: #000000;
 }
 h1,
@@ -249,7 +248,7 @@ h6 {
   word-break: break-all;
 }
 p {
-  margin-bottom: 1.5em;
+  margin-bottom: 0.5em;
 }
 b,
 strong {
@@ -423,8 +422,7 @@ input[type="submit"] {
   text-transform: uppercase;
   line-height: 1;
   color: #ffffff;
-  background: #3c3c3c;
-  background: #3d3d3d;
+  background: #545454;
   border: none;
   border-radius: 3px;
   cursor: pointer;
@@ -436,7 +434,6 @@ button:hover,
 input[type="button"]:hover,
 input[type="reset"]:hover,
 input[type="submit"]:hover {
-  background: #000;
   background: #000000;
 }
 button:focus,
@@ -447,7 +444,6 @@ button:active,
 input[type="button"]:active,
 input[type="reset"]:active,
 input[type="submit"]:active {
-  background: #000;
   background: #000000;
 }
 input[type="checkbox"],
@@ -503,9 +499,7 @@ textarea {
   font-family: "Myriad Pro", sans-serif;
   font-size: 16px;
   font-size: 1.6rem;
-  color: #fff;
   color: #ffffff;
-  background: #84bd68;
   background: #83bc67;
 }
 .logged-in-as a {
@@ -519,7 +513,6 @@ textarea {
 --------------------------------------------------------------*/
 a {
   text-decoration: none;
-  color: #000;
   color: #000000;
 }
 a:hover,
@@ -536,7 +529,6 @@ a:visited {
   display: block;
   width: 100%;
   clear: both;
-  background: #6a6a6a;
   background: #6b6b6b;
 }
 .main-navigation ul {
@@ -555,7 +547,6 @@ a:visited {
   font-size: 1.7rem;
   text-decoration: none;
   line-height: 1em;
-  color: #fff;
   color: #ffffff;
 }
 .main-navigation ul ul {
@@ -565,7 +556,6 @@ a:visited {
   display: none;
   float: left;
   padding: 0;
-  background: #6a6a6a;
   background: #6b6b6b;
 }
 .main-navigation ul ul ul {
@@ -580,9 +570,7 @@ a:visited {
 }
 .main-navigation li:hover > a,
 .main-navigation li > a:focus {
-  color: #fff;
   color: #ffffff;
-  background: #818181;
   background: #828282;
 }
 .main-navigation ul li:hover > ul {
@@ -841,7 +829,6 @@ span.page-numbers {
 .site-title a:hover,
 .site-title a:active,
 .site-title a:focus {
-  color: #000;
   color: #000000;
 }
 .site-title a:hover,
@@ -860,7 +847,6 @@ span.page-numbers {
 }
 .site-header,
 .site-description {
-  color: #000;
   color: #000000;
 }
 .language-switcher {
@@ -935,7 +921,6 @@ input[type=search] {
 }
 .widget a {
   font-weight: 700;
-  color: #000;
   color: #000000;
 }
 .widget ul,
@@ -1013,9 +998,7 @@ input[type=search] {
 .footer-widgets .widget-title,
 .footer-widgets .widget a:hover,
 .footer-widgets .widget a:focus {
-  color: #fff;
   color: #ffffff;
-  border-color: #fff;
   border-color: #ffffff;
 }
 .footer-widgets .widget {
@@ -1106,7 +1089,6 @@ h1.entry-title {
   font-size: 45px;
   font-size: 4.5rem;
   line-height: 1.3em;
-  color: #000;
   color: #000000;
 }
 .entry-title a {
@@ -1128,11 +1110,11 @@ h1.entry-title {
 .entry-content h4,
 .entry-content h5,
 .entry-content h6 {
-  margin-top: 2em;
-  margin-bottom: 1em;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
 }
 .entry-content h4 {
-  margin-top: 1em;
+  margin-top: 0.5em;
 }
 .entry-content h1:first-child,
 .entry-content h2:first-child,
@@ -1140,7 +1122,7 @@ h1.entry-title {
 .entry-content h4:first-child,
 .entry-content h5:first-child,
 .entry-content h6:first-child {
-  margin-top: 1em;
+  margin-top: 0.8em;
 }
 .entry-content h1 {
   font-size: 32px;
@@ -1273,7 +1255,6 @@ blockquote.alignright {
 }
 .index-box blockquote.alignleft,
 .index-box blockquote.alignright {
-  background: #fff;
   background: #ffffff;
   border: none;
 }
@@ -1550,7 +1531,6 @@ ol.children {
   position: relative;
   padding: 1em;
   margin-bottom: 2em;
-  background: #ccc;
   background: #cccccc;
 }
 .comments-area .pingback .comment-body {
@@ -1677,7 +1657,6 @@ ol.children {
   font-size: 14px;
   font-size: 1.4rem;
   font-family: "Myriad Pro", sans-serif;
-  background: #eee;
   background: #ededed;
 }
 .gallery-caption,
@@ -1737,7 +1716,6 @@ object {
   font-size: 16px;
   font-size: 1.6rem;
   font-family: "Myriad Pro", sans-serif;
-  background-color: #6B6B6B;
   background-color: #6b6b6b;
   max-width: 1200px;
   max-width: 120rem;
@@ -1748,7 +1726,6 @@ object {
 .site-footer a:hover,
 .site-footer a:focus,
 .site-footer a:active {
-  color: #eee;
   color: #ededed;
 }
 .site-info {
@@ -1760,26 +1737,40 @@ object {
 .footer-text {
   float: right;
 }
+
 #toTop {
-  display: none;
+  display: inline-block;
+  opacity: 0;
+  visibility: hidden;
+  background-color: #666;
+  width: 50px;
+  height: 50px;
+  text-align: center;
   text-decoration: none;
+  border-radius: 4px;
   position: fixed;
-  bottom: 1rem;
-  right: 1rem;
-  overflow: hidden;
-  width: 43px;
-  height: 43px;
-  border: none;
-  z-index: 100;
+  bottom: 30px;
+  right: 30px;
+  transition: opacity .3s, visibility .3s;
+  z-index: 1000;
 }
-#toTopHover {
-  display: block;
-  overflow: hidden;
-  float: left;
+#toTop::after {
+  content: '\f077';
+  font-family: 'FontAwesome';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 2em;
+  line-height: 50px;
+  color: #fff;
 }
-#toTop:active,
+#toTop:hover,
 #toTop:focus,
-#toTop img,
-#toTop img:focus {
-  outline: none;
+#toTop:active {
+  text-decoration: none;
+  cursor: pointer;
+  background-color: #555;
+}
+#toTop.show {
+  opacity: 1;
+  visibility: visible;
 }

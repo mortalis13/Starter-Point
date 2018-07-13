@@ -92,6 +92,12 @@ license: https://github.com/ajaxorg/ace/blob/master/LICENSE.
 == Changelog ==
 
 
+=== Version 1.1.2 ===
+
+Fix: Some margins for h3, p elements
+Change: To Top button uses FontAwesome icon to preserve clean image on zoom
+
+
 === Version 1.1.1 ===
 
 Add: Uncompressed versions of js plugins

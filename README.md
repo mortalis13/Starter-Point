@@ -1,5 +1,7 @@
 # Starter Point
 
+**v1.1.2**
+
 Requires at least: 4.1  
 Tested up to: 4.2  
 License: GPLv2 or later  
@@ -84,13 +86,16 @@ It has the following options:
 
 ## Changelog
 
+### Version 1.1.2
+
+- **Fix**: Some margins for h3, p elements
+- **Change**: To Top button uses FontAwesome icon to preserve clean image on zoom
 
 ### Version 1.1.1
 
 - **Add**: Uncompressed versions of js plugins
 - **Fix**: Warnings when primary menu is disabled
 - **Change**: Removed favicon link and meta information from header.php
-
 
 ### Version 1.1.0
 
@@ -102,17 +107,14 @@ It has the following options:
 - **Fix**: Warnings in debug mode when a page reloads after a color/layout setting is changed in the Customizer
 - **Fix**: Animated loader image path (change from absolute to relative)
 
-
 ### Version 1.0.9
 
 - **Add**: Put custom fonts to the theme folder (Myriad Pro, Minion Pro)
-
 
 ### Version 1.0.8
 
 - **Change**: Post views count for non registered users
 - **Change**: Removed [rel='prev/next'] meta tags to fix double counting of current and next posts views
-
 
 ### Version 1.0.7
 
@@ -125,7 +127,6 @@ It has the following options:
 - **Change**: 'toTop' button anchor container from the footer itself to its content subcontainer
 - **Fix**: Some settings in Customizer didn't save to the database because they didn't change
 
-
 ### Version 1.0.6
 
 - **Add**: Footer menu
@@ -135,13 +136,11 @@ It has the following options:
 - **Fix**: Customizer didn't load live preview correctly when debugging is enabled
 - **Fix**: Synchronized default color scheme with CSS rules in the style.css and content.css
 
-
 ### Version 1.0.5
 
 - **Add**: Meta tags and favicon link
 - **Add**: Multisite support: ('category_meta' DB table creates for each site in a network)
 - **Add**: Spanish translation (es_ES)
-
 
 ### Version 1.0.4
 
@@ -155,7 +154,6 @@ It has the following options:
 - **Fix**: Image keyboard navigation loads only for attachment pages
 - **Fix**: Some styles for 'hx' elements and word wrapping
 
-
 ### Version 1.0.3
 
 - **Add**: Additional Admin CSS for Options page.
@@ -166,11 +164,9 @@ It has the following options:
 - **Add**: Ace editor custom Sublime theme.
 - **Add**: Pages to display common Ace editor shortcuts, CSS snippets, Emmet CSS Abbreviations and links for them in the Theme options page.
 
-
 ### Version 1.0.2
 
 - **Add**: Custom CSS editor (Ace Editor) in the Theme Options page.
-
 
 ### Version 1.0.1
 

@@ -33,7 +33,7 @@
     <?php get_sidebar( 'footer' ); ?>
     
     <?php $image=get_template_directory_uri().'/images/to-top@2x.png'; ?>
-    <a id="toTop" href="#"><span id="toTopHover"></span><img width="40" height="40" alt="To Top" src="<?php echo $image ?>"></a>
+    <a id="toTop" href="#"></a>
   </footer><!-- #colophon -->
   
   

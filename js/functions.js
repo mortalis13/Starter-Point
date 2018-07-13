@@ -155,7 +155,7 @@ jQuery(function($){
   var settings = {
     text: 'To Top',
     containerID: 'toTop',
-    containerHoverID: 'toTopHover',
+    // containerHoverID: 'toTopHover',
     min: 200,
     inDelay: 600,
     outDelay: 400,
@@ -169,16 +169,21 @@ jQuery(function($){
   toTop.click(function(e) {
     e.preventDefault();
     $.scrollTo(0, settings.scrollSpeed, {easing: settings.easingType});
+    this.blur();
   });
   
   $(window).scroll(function() {
     var sd = $(this).scrollTop();
     if (sd > settings.min && toTopHidden) {
-      toTop.fadeIn(settings.inDelay);
+      toTop.addClass('show');
+      // toTop.fadeIn(settings.inDelay);
+      // toTop.show();
       toTopHidden = false;
     }
     else if(sd <= settings.min && ! toTopHidden) {
-      toTop.fadeOut(settings.outDelay);
+      toTop.removeClass('show');
+      // toTop.fadeOut(settings.outDelay);
+      // toTop.hide();
       toTopHidden = true;
     }
   });
